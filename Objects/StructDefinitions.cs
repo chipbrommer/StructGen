@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace StructGen.Objects
 {
-    /// <summary> A class to represent an output file </summary>
-    public class File
+    /// <summary> A class to represent an output header file </summary>
+    public class HeaderFile
     {
         public string FileName { get; set; }
         public string FileVersion { get; set; }
