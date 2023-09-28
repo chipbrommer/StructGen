@@ -9,8 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\jsonLayout.json" />
+    <None Remove="Resources\StructGen_logo.ico" />
+    <None Remove="Resources\xmlLayout.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\jsonLayout.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\StructGen_logo.ico" />
+    <Content Include="Resources\xmlLayout.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

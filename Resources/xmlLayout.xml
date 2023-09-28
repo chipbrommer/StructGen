@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<HeaderFile>
+    <file>
+        <ProjectName></ProjectName>
+        <FileName></FileName>
+        <FileVersion></FileVersion>
+        <FileHeader></FileHeader>
+    </file>
+    <structures>
+        <Structure>
+            <StructureName></StructureName>
+            <StructureComment></StructureComment>
+            <StructurePacking></StructurePacking>
+            <Variables>
+                <Variable>
+                    <Name></Name>
+                    <Type></Type>
+                    <Comment></Comment>
+                </Variable>
+                <Variable>
+                    <Name></Name>
+                    <Type></Type>
+                    <Comment></Comment>
+                </Variable>
+            </Variables>
+        </Structure>
+        <Structure>
+            <StructureName></StructureName>
+            <StructureComment></StructureComment>
+            <StructurePacking></StructurePacking>
+            <Variables>
+                <Variable>
+                    <Name></Name>
+                    <Type></Type>
+                    <Comment></Comment>
+                </Variable>
+                <Variable>
+                    <Name></Name>
+                    <Type></Type>
+                    <Comment></Comment>
+                </Variable>
+            </Variables>
+        </Structure>
+    </structures>
+</HeaderFile>

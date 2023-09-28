@@ -5,13 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructGen"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="StructGen" 
         Height="400" 
         Width="500"
         ResizeMode="NoResize"
         Background="DarkGray">
+    <Window.Icon>
+        <BitmapImage UriSource="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
+    </Window.Icon>
     <Grid>
-        <Border Margin="10px" CornerRadius="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="49*"/>
+        </Grid.ColumnDefinitions>
+        <Border Margin="0,10,10,10" CornerRadius="10" Grid.Column="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
@@ -20,7 +27,17 @@
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-        
+
+                <!-- Row 0 - Header for StructGen image -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="2" VerticalAlignment="Center" Width="120" Height="30" Content="Download Layouts" Click="DownloadLayouts_Click"/>
+                </Grid>
+
                 <!-- Row 1 - Input file selection -->
                 <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
                     <Grid Margin="10">

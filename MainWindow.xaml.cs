@@ -1,10 +1,10 @@
-﻿using Microsoft.Win32;
-using StructGen.Objects;
+﻿using StructGen.Objects;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using Window = System.Windows.Window;
 
 namespace StructGen
@@ -209,7 +209,14 @@ namespace StructGen
                 case OutputType.CSharp: outputExtension = ".cs"; break;
             }
 
-            string fileName = $"{parsedContent.FileName}.{outputExtension}";
+            string outputFilename;
+
+            if (string.IsNullOrEmpty(parsedContent.File.FileName)) 
+            { outputFilename = "DefaultFileName"; }
+            else 
+            { outputFilename = parsedContent.File.FileName; }
+
+            string fileName = $"{outputFilename}.{outputExtension}";
             string filePath = System.IO.Path.Combine(outputFolderPath, fileName);
 
             // Write the generated content to the file
@@ -221,6 +228,56 @@ namespace StructGen
         private void ShowErrorMessage(string message)
         {
             MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void DownloadLayouts_Click(object sender, RoutedEventArgs e)
+        {
+            // Create a SaveFileDialog
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "XML Files (*.xml)|*.xml|JSON Files (*.json)|*.json";
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.FileName = "layout"; // Default file name
+
+            // Show the SaveFileDialog and get the result
+            DialogResult result = saveFileDialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                // Get the selected file name
+                string filePath = saveFileDialog.FileName;
+
+                // Determine the file format based on the selected filter
+                string fileFormat = Path.GetExtension(filePath).ToLower();
+
+                // Prepare the layout data based on the selected format
+                string layoutData = "";
+
+                // Get the directory where the executable is located
+                string exeDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+                if (fileFormat == ".xml")
+                {
+                    // Construct the full path to the XML layout file
+                    string xmlLayoutPath = Path.Combine(exeDirectory, "Resources", "xmlLayout.xml");
+
+                    // Load the layout data from the file
+                    layoutData = File.ReadAllText(xmlLayoutPath);
+                }
+                else if (fileFormat == ".json")
+                {
+                    // Construct the full path to the XML layout file
+                    string jsonLayoutPath = Path.Combine(exeDirectory, "Resources", "jsonLayout.json");
+
+                    // Load the layout data from the file
+                    layoutData = File.ReadAllText(jsonLayoutPath);
+                }
+
+                // Save the layout data to the selected file
+                File.WriteAllText(filePath, layoutData);
+
+                // Display a success message
+                System.Windows.MessageBox.Show("Layout downloaded successfully!");
+            }
         }
     }
 }

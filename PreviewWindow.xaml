@@ -5,12 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructGen"
         mc:Ignorable="d"
-        Title="Preview" 
+        Title="StructGen - Preview" 
         Height="400" 
-        Width="600">
+        Width="600"
+        Background="DarkGray">
+    <Window.Icon>
+        <BitmapImage UriSource="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
+    </Window.Icon>
     <Grid>
-        <TabControl x:Name="PreviewTabControl">
-            <!-- No initial TabItems here -->
-        </TabControl>
+        <Border Margin="10" CornerRadius="10">
+            <TabControl x:Name="PreviewTabControl">
+                <!-- No initial TabItems here -->
+            </TabControl>
+        </Border>
     </Grid>
 </Window>

@@ -1,0 +1,44 @@
+{
+  "file": {
+    "projectName": "",
+    "fileName": "",
+    "fileVersion": "",
+    "fileHeader": ""
+  },
+  "structures": [
+    {
+      "structureName": "",
+      "structureComment": "",
+      "structurePacking": "",
+      "variables": [
+        {
+          "name": "",
+          "type": "",
+          "comment": ""
+        },
+        {
+          "name": "",
+          "type": "",
+          "comment": ""
+        }
+      ]
+    },
+    {
+      "structureName": "",
+      "structureComment": "",
+      "structurePacking": "",
+      "variables": [
+        {
+          "name": "",
+          "type": "",
+          "comment": ""
+        },
+        {
+          "name": "",
+          "type": "",
+          "comment": ""
+        }
+      ]
+    }
+  ]
+}
