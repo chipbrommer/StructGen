@@ -6,45 +6,54 @@
         xmlns:local="clr-namespace:StructGen"
         mc:Ignorable="d"
         Title="MainWindow" 
-        Height="350" 
+        Height="400" 
         Width="500"
+        ResizeMode="NoResize"
         Background="DarkGray">
     <Grid>
         <Border Margin="10px" CornerRadius="10">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="80"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
         
-                <!-- Row 0 - Input file selection -->
-                <Border Grid.Row="0" Background="White" CornerRadius="10" Margin="5">
+                <!-- Row 1 - Input file selection -->
+                <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
                     <Grid Margin="10">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
-                            <Button VerticalAlignment="Top" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
+                            <Button VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
                         </StackPanel>
                         <TextBox x:Name="InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
                     </Grid>
                 </Border>
 
-                <!--Row 1 - File generation type -->
-                <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
+                <!--Row 2 - File generation type -->
+                <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="5">
                     <Grid Margin="10">
-                        <GroupBox Header="File Generation Type" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Column="0" Header="File Generation Type" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <StackPanel Orientation="Horizontal">
-                                <RadioButton Content="C" Name="RadioButtonC" Margin="10,0,10,0"/>
-                                <RadioButton Content="C++" Name="RadioButtonCpp" Margin="10,0,10,0"/>
-                                <RadioButton Content="C#" Name="RadioButtonCSharp" Margin="10,0,0,0"/>
+                                <CheckBox x:Name="CRadioButton" Content="C" Margin="10,0,10,0" />
+                                <CheckBox x:Name="CppRadioButton" Content="C++" Margin="10,0,10,0" />
+                                <CheckBox x:Name="CSharpRadioButton" Content="C#" Margin="10,0,10,0" />
                             </StackPanel>
                         </GroupBox>
+                        <Grid Grid.Column="1">
+                            <CheckBox x:Name="FileDescSelector" Content="Create File Description Document" VerticalAlignment="Center" />
+                        </Grid>
                     </Grid>
                 </Border>
 
-                <!--Row 2 - Selectable file output location -->
-                <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="5">
+                <!--Row 3 - Selectable file output location -->
+                <Border Grid.Row="3" Background="White" CornerRadius="10" Margin="5">
                     <Grid Margin="10">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
@@ -54,10 +63,13 @@
                     </Grid>
                 </Border>
 
-                <!--Row 3 - File generation type -->
-                <Border Grid.Row="3" Background="White" CornerRadius="10" Margin="5">
+                <!--Row 4 - File generation type -->
+                <Border Grid.Row="4" Background="White" CornerRadius="10" Margin="5">
                     <Grid Margin="10">
-                        <!-- radio buttons for c, c++, and c# -->
+                        <StackPanel Orientation="Horizontal">
+                            <Button VerticalAlignment="Center" Width="90" Height="30" Margin="20,0,20,0" Content="Preview" Click="PreviewButton_Click"/>
+                            <Button VerticalAlignment="Center" Width="90" Height="30" Margin="20,0,20,0" Content="Generate" Click="GenerateButton_Click"/>
+                        </StackPanel>
                     </Grid>
                 </Border>
             </Grid>

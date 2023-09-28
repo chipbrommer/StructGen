@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Forms;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace StructGen
 {
@@ -52,6 +53,16 @@ namespace StructGen
                     OutputFilePathTextBox.Text = selectedFolderPath;
                 }
             }
+        }
+
+        private void PreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
