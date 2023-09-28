@@ -42,44 +42,28 @@ namespace StructGen.Objects
         };
 
         /// <summary>Handles CSV file input</summary>
-        /// <param name="file"> -[out]- output of the parsed file data as a structrue</param>
-        /// <returns></returns>
-        public static int HandleCsvFile(ref HeaderFile file)
+        /// <param name="filepath"> -[in]- Filepath of the file to parse</param>
+        /// <returns>Parsed HeaderFile structure</returns>
+        public static HeaderFile HandleCsvFile(string filepath)
         {
-            file = new HeaderFile();
-            return 0;
+            return new HeaderFile();
         }
 
         /// <summary>Handles JSON file input</summary>
-        /// <param name="file"> -[out]- output of the parsed file data as a structrue</param>
-        public static void HandleJsonFile(ref HeaderFile file)
+        /// <param name="filepath"> -[in]- Filepath of the file to parse</param>
+        /// <returns>Parsed HeaderFile structure</returns>
+        public static HeaderFile HandleJsonFile(string filepath)
         {
-            string json = File.ReadAllText("path_to_your_json_file.json");
-            file = JsonConvert.DeserializeObject<HeaderFile>(json);
+            string json = File.ReadAllText(filepath);
+            return JsonConvert.DeserializeObject<HeaderFile>(json);
         }
 
         /// <summary>Handles XML file input</summary>
-        /// <param name="file"> -[out]- output of the parsed file data as a structrue</param>
-        /// <returns></returns>
-        public static int HandleXmlFile(ref HeaderFile file)
+        /// <param name="filepath"> -[in]- Filepath of the file to parse</param>
+        /// <returns>Parsed HeaderFile structure</returns>
+        public static HeaderFile HandleXmlFile(string filepath)
         {
-            file = new HeaderFile();
-            return 0;
-        }
-
-        /// <summary>Function to create a desired header file</summary>
-        /// <param name="type"> -[in]- Type of header file to be created</param>
-        /// <param name="file"> -[in]- File structure to be created</param>
-        /// <returns></returns>
-        public static string CreateHeaderFile(HEADER_TYPE type, HeaderFile file)
-        {
-            return type switch
-            {
-                HEADER_TYPE.C => GenerateHeaderC(file),
-                HEADER_TYPE.CPP => GenerateHeaderCPP(file),
-                HEADER_TYPE.CSHARP => GenerateHeaderCSHARP(file),
-                _ => "Error!",
-            };
+            return new HeaderFile();
         }
 
         /// <summary>Validates the variables in a file structure are acceptable</summary>
@@ -106,7 +90,7 @@ namespace StructGen.Objects
         /// <summary>Creates a header for C language</summary>
         /// <param name="file"> -[in]- File structure to be created</param>
         /// <returns>string of output file content</returns>
-        private static string GenerateHeaderC(HeaderFile file)
+        public static string GenerateHeaderC(HeaderFile file)
         {
             StringBuilder output = new StringBuilder();
 
@@ -150,7 +134,7 @@ namespace StructGen.Objects
         /// <summary>Creates a header for C++ language</summary>
         /// <param name="file"> -[in]- File structure to be created</param>
         /// <returns>string of output file content</returns>
-        private static string GenerateHeaderCPP(HeaderFile file)
+        public static string GenerateHeaderCPP(HeaderFile file)
         {
             StringBuilder output = new StringBuilder();
 
@@ -197,7 +181,7 @@ namespace StructGen.Objects
         /// <summary>Creates a header for C# language</summary>
         /// <param name="file"> -[in]- File structure to be created</param>
         /// <returns>string of output file content</returns>
-        private static string GenerateHeaderCSHARP(HeaderFile file)
+        public static string GenerateHeaderCSHARP(HeaderFile file)
         {
             StringBuilder output = new StringBuilder();
 
@@ -242,7 +226,7 @@ namespace StructGen.Objects
             return output.ToString();
         }
 
-        private static void GenerateFileDescriptionDocument(HeaderFile file)
+        public static void GenerateFileDescriptionDocument(HeaderFile file)
         {
             // @todo
         }

@@ -24,11 +24,20 @@
                 <!-- Row 1 - Input file selection -->
                 <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
                     <Grid Margin="10">
-                        <StackPanel Orientation="Horizontal">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
                             <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
-                            <Button VerticalAlignment="Top" HorizontalAlignment="Right" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
-                        </StackPanel>
-                        <TextBox x:Name="InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                            <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
+                        </Grid>
+
+                        <TextBox Grid.Row="1" x:Name="InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
                     </Grid>
                 </Border>
 
@@ -55,21 +64,33 @@
                 <!--Row 3 - Selectable file output location -->
                 <Border Grid.Row="3" Background="White" CornerRadius="10" Margin="5">
                     <Grid Margin="10">
-                        <StackPanel Orientation="Horizontal">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
                             <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
-                            <Button VerticalAlignment="Top" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
-                        </StackPanel>
-                        <TextBox x:Name="OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                            <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                        </Grid>
+
+                        <TextBox Grid.Row="1" x:Name="OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
                     </Grid>
                 </Border>
 
                 <!--Row 4 - File generation type -->
                 <Border Grid.Row="4" Background="White" CornerRadius="10" Margin="5">
                     <Grid Margin="10">
-                        <StackPanel Orientation="Horizontal">
-                            <Button VerticalAlignment="Center" Width="90" Height="30" Margin="20,0,20,0" Content="Preview" Click="PreviewButton_Click"/>
-                            <Button VerticalAlignment="Center" Width="90" Height="30" Margin="20,0,20,0" Content="Generate" Click="GenerateButton_Click"/>
-                        </StackPanel>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" VerticalAlignment="Center" Width="90" Height="30" Margin="20,0,20,0" Content="Preview" Click="PreviewButton_Click"/>
+                        <Button Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="30" Margin="20,0,20,0" Content="Generate" Click="GenerateButton_Click"/>
                     </Grid>
                 </Border>
             </Grid>
