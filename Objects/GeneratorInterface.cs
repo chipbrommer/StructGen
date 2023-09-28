@@ -52,13 +52,10 @@ namespace StructGen.Objects
 
         /// <summary>Handles JSON file input</summary>
         /// <param name="file"> -[out]- output of the parsed file data as a structrue</param>
-        /// <returns></returns>
-        public static int HandleJsonFile(ref HeaderFile file)
+        public static void HandleJsonFile(ref HeaderFile file)
         {
             string json = File.ReadAllText("path_to_your_json_file.json");
             file = JsonConvert.DeserializeObject<HeaderFile>(json);
-
-            return 0;
         }
 
         /// <summary>Handles XML file input</summary>

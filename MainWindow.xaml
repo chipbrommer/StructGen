@@ -5,8 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StructGen"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        Height="350" 
+        Width="500"
+        Background="DarkGray">
     <Grid>
+        <Border Margin="10px" CornerRadius="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
         
+                <!-- Row 0 - Input file selection -->
+                <Border Grid.Row="0" Background="White" CornerRadius="10" Margin="5">
+                    <Grid Margin="10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
+                            <Button VerticalAlignment="Top" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
+                        </StackPanel>
+                        <TextBox x:Name="InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                    </Grid>
+                </Border>
+
+                <!--Row 1 - File generation type -->
+                <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
+                    <Grid Margin="10">
+                        <GroupBox Header="File Generation Type" HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton Content="C" Name="RadioButtonC" Margin="10,0,10,0"/>
+                                <RadioButton Content="C++" Name="RadioButtonCpp" Margin="10,0,10,0"/>
+                                <RadioButton Content="C#" Name="RadioButtonCSharp" Margin="10,0,0,0"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </Border>
+
+                <!--Row 2 - Selectable file output location -->
+                <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="5">
+                    <Grid Margin="10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
+                            <Button VerticalAlignment="Top" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                        </StackPanel>
+                        <TextBox x:Name="OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                    </Grid>
+                </Border>
+
+                <!--Row 3 - File generation type -->
+                <Border Grid.Row="3" Background="White" CornerRadius="10" Margin="5">
+                    <Grid Margin="10">
+                        <!-- radio buttons for c, c++, and c# -->
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
