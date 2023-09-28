@@ -96,8 +96,9 @@ namespace StructGen
                     parsedContent = GeneratorInterface.HandleXmlFile(filePath);
                     break;
                 default:
-                    if (InputFilePathTextBox.Text.Length == 0) { return -2; }
-                    else { return -1; }
+                    if (InputFilePathTextBox.Text.Length == 0) { ShowErrorMessage("Please select an input file."); }
+                    else { ShowErrorMessage("Unsupported input file."); }
+                    return -1;
             }
 
             contentParsed = true;
@@ -130,13 +131,8 @@ namespace StructGen
         /// <param name="e"></param>
         private void PreviewButton_Click(object sender, RoutedEventArgs e)
         {
-            if(!contentParsed) 
-            {
-                int rtn = ParseFileContent();
-                if (rtn == -2) { MessageBox.Show("Please select an input file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
-                if (rtn == -1) { MessageBox.Show("Unsupported input file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
-                return;
-            }
+            // Verify content
+            if(!contentParsed) { if(ParseFileContent() < 0) { return; } }
 
             // Create the preview window
             PreviewWindow previewWindow = new PreviewWindow();
@@ -168,13 +164,8 @@ namespace StructGen
         /// <param name="e"></param>
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!contentParsed)
-            {
-                int rtn = ParseFileContent();
-                if (rtn == -2) { MessageBox.Show("Please select an input file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
-                if (rtn == -1) { MessageBox.Show("Unsupported input file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
-                return;
-            }
+            // Verify content
+            if (!contentParsed) { if (ParseFileContent() < 0) { return; } }
 
             string outputFolderPath = OutputFilePathTextBox.Text;
 
@@ -223,6 +214,13 @@ namespace StructGen
 
             // Write the generated content to the file
             System.IO.File.WriteAllText(filePath, content);
+        }
+
+        /// <summary>Shows an error message</summary>
+        /// <param name="message"> -[in]- message to be displayed</param>
+        private void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }
