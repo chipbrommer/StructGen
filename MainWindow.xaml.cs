@@ -200,13 +200,13 @@ namespace StructGen
                 return;
             }
 
-            string outputExtension = ".txt";
+            string outputExtension = "txt";
 
             switch(outputType)
             {
-                case OutputType.C: outputExtension = ".h"; break;
-                case OutputType.Cpp: outputExtension = ".h"; break;
-                case OutputType.CSharp: outputExtension = ".cs"; break;
+                case OutputType.C: outputExtension = "h"; break;
+                case OutputType.Cpp: outputExtension = "h"; break;
+                case OutputType.CSharp: outputExtension = "cs"; break;
             }
 
             string outputFilename;

@@ -141,13 +141,13 @@ namespace StructGen.Objects
 
             output.AppendLine(autogenHeader);
             output.AppendLine("/////////////////////////////////////////////////////////////////");
-            output.Append($"\t@project: {file.File.ProjectName}\n");
-            output.Append($"\t@name:    {file.File.FileName}\n");
-            output.Append($"\t@version: {file.File.FileVersion}\n");
+            output.Append($"//\t@project: {file.File.ProjectName}\r\n");
+            output.Append($"//\t@name:    {file.File.FileName}\r\n");   
+            output.Append($"//\t@version: {file.File.FileVersion}\r\n");
             output.AppendLine("/////////////////////////////////////////////////////////////////");
             output.AppendLine("#include <string>");
             output.AppendLine("#include <cstdint>");
-            output.AppendLine("\n\n");
+            output.AppendLine("\r\n");
 
             List<string> invalidVars = ValidateVariableTypes(file);
 
