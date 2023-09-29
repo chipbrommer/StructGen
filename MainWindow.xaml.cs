@@ -40,7 +40,7 @@ namespace StructGen
         {
             // Create the file dialog
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "CSV Files (*.csv)|*.csv|JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*";
+            openFileDialog.Filter = "CSV Files (*.csv)|*.csv|JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*|All Files|*.*";
             openFileDialog.Title = "Select an input file";
 
             if (openFileDialog.ShowDialog() == true)
@@ -137,19 +137,19 @@ namespace StructGen
             // Create the preview window
             PreviewWindow previewWindow = new PreviewWindow();
 
-            if ((bool)CRadioButton.IsChecked)
+            if ((bool)CButton.IsChecked)
             {
                 string cContent = GetGeneratedContentForType(OutputType.C);
                 previewWindow.AddPreviewTab("C", cContent);
             }
 
-            if ((bool)CppRadioButton.IsChecked)
+            if ((bool)CppButton.IsChecked)
             {
                 string cppContent = GetGeneratedContentForType(OutputType.Cpp);
                 previewWindow.AddPreviewTab("C++", cppContent);
             }
 
-            if ((bool)CSharpRadioButton.IsChecked)
+            if ((bool)CSharpButton.IsChecked)
             {
                 string csharpContent = GetGeneratedContentForType(OutputType.CSharp);
                 previewWindow.AddPreviewTab("C#", csharpContent);
@@ -169,22 +169,27 @@ namespace StructGen
 
             string outputFolderPath = OutputFilePathTextBox.Text;
 
-            if ((bool)CRadioButton.IsChecked)
+            if ((bool)CButton.IsChecked)
             {
                 string cContent = GetGeneratedContentForType(OutputType.C);
                 SaveGeneratedContentToFile(outputFolderPath, OutputType.C, cContent);
             }
 
-            if ((bool)CppRadioButton.IsChecked)
+            if ((bool)CppButton.IsChecked)
             {
                 string cppContent = GetGeneratedContentForType(OutputType.Cpp);
                 SaveGeneratedContentToFile(outputFolderPath, OutputType.Cpp, cppContent);
             }
 
-            if ((bool)CSharpRadioButton.IsChecked)
+            if ((bool)CSharpButton.IsChecked)
             {
                 string csharpContent = GetGeneratedContentForType(OutputType.CSharp);
                 SaveGeneratedContentToFile(outputFolderPath, OutputType.CSharp, csharpContent);
+            }
+
+            if((bool)FddButton.IsChecked)
+            {
+                GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath);
             }
         }
 
@@ -279,5 +284,6 @@ namespace StructGen
                 System.Windows.MessageBox.Show("Layout downloaded successfully!");
             }
         }
+
     }
 }

@@ -12,6 +12,7 @@ namespace StructGen.Objects
     {
         public FileInfo File { get; set; }
         public List<Structure> Structures { get; set; }
+        public FDD DescDoc { get; set; }
     }
 
     /// <summary> A class to hold a files information </summary>
@@ -38,5 +39,11 @@ namespace StructGen.Objects
         public string Name { get; set; }
         public string Type { get; set; }
         public string Comment { get; set; }
+    }
+
+    /// <summary> A class to hold accompanying File Description Document information</summary>
+    public class FDD
+    {
+        public string Revision { get; set; }
     }
 }
