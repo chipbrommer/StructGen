@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<HeaderFile>
+    <FileInformation>
+        <ProjectName>MyProject</ProjectName>
+        <FileName>MyFile</FileName>
+        <FileVersion>1.0</FileVersion>
+        <FileHeader>This is the header content.</FileHeader>
+    </FileInformation>
+    <Structures>
+        <Structure>
+            <StructureName>Person</StructureName>
+            <StructureComment>Represents information about a person.</StructureComment>
+            <StructurePacking>1</StructurePacking>
+            <AdditionalInformation>Additional information about Person structure.</AdditionalInformation>
+            <Variables>
+                <Variable>
+                    <Name>Name</Name>
+                    <Type>string</Type>
+                    <Comment>The name of the person</Comment>
+                </Variable>
+                <Variable>
+                    <Name>Age</Name>
+                    <Type>int</Type>
+                    <Comment>The age of the person</Comment>
+                </Variable>
+            </Variables>
+        </Structure>
+        <Structure>
+            <StructureName>Address</StructureName>
+            <StructureComment>Represents address information.</StructureComment>
+            <StructurePacking>0</StructurePacking>
+            <AdditionalInformation>Additional information about Address structure.</AdditionalInformation>
+            <Variables>
+                <Variable>
+                    <Name>Street</Name>
+                    <Type>string</Type>
+                    <Comment>The street address</Comment>
+                </Variable>
+                <Variable>
+                    <Name>City</Name>
+                    <Type>string</Type>
+                    <Comment>The city</Comment>
+                </Variable>
+                <Variable>
+                    <Name>ZipCode</Name>
+                    <Type>string</Type>
+                    <Comment>The ZIP code</Comment>
+                </Variable>
+            </Variables>
+        </Structure>
+    </Structures>
+    <DescriptionDocument>
+        <Revision>1.0</Revision>
+    </DescriptionDocument>
+</HeaderFile>

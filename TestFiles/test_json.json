@@ -1,0 +1,54 @@
+{
+  "FileInformation": {
+    "ProjectName": "MyProject",
+    "FileName": "MyFile",
+    "FileVersion": "1.0",
+    "FileHeader": "This is the header content."
+  },
+  "Structures": [
+    {
+      "StructureName": "Person",
+      "StructureComment": "Represents information about a person.",
+      "StructurePacking": "1",
+      "AdditionalInformation": "Additional information about Person structure.",
+      "Variables": [
+        {
+          "Name": "Name",
+          "Type": "string",
+          "Comment": "The name of the person"
+        },
+        {
+          "Name": "Age",
+          "Type": "int",
+          "Comment": "The age of the person"
+        }
+      ]
+    },
+    {
+      "StructureName": "Address",
+      "StructureComment": "Represents address information.",
+      "StructurePacking": "0",
+      "AdditionalInformation": "Additional information about Address structure.",
+      "Variables": [
+        {
+          "Name": "Street",
+          "Type": "string",
+          "Comment": "The street address"
+        },
+        {
+          "Name": "City",
+          "Type": "string",
+          "Comment": "The city"
+        },
+        {
+          "Name": "ZipCode",
+          "Type": "string",
+          "Comment": "The ZIP code"
+        }
+      ]
+    }
+  ],
+  "DescriptionDocument": {
+    "Revision": "1.0"
+  }
+}

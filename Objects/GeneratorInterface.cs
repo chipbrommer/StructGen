@@ -5,6 +5,8 @@ using CsvHelper;
 using System.IO;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
+using System.Xml.Serialization;
+using System;
 
 namespace StructGen.Objects
 {
@@ -57,8 +59,15 @@ namespace StructGen.Objects
         /// <returns>Parsed HeaderFile structure.</returns>
         public static HeaderFile HandleJsonFile(string filepath)
         {
-            string json = File.ReadAllText(filepath);
-            return JsonConvert.DeserializeObject<HeaderFile>(json);
+            try
+            {
+                string json = File.ReadAllText(filepath);
+                return JsonConvert.DeserializeObject<HeaderFile>(json);
+            }
+            catch (Exception ex)
+            {
+                return new HeaderFile();
+            }
         }
 
         /// <summary>Handles XML file input.</summary>
@@ -66,7 +75,22 @@ namespace StructGen.Objects
         /// <returns>Parsed HeaderFile structure.</returns>
         public static HeaderFile HandleXmlFile(string filepath)
         {
-            return new HeaderFile();
+            try
+            {
+                string xml = File.ReadAllText(filepath);
+
+                XmlSerializer serializer = new XmlSerializer(typeof(HeaderFile));
+
+                using (StringReader reader = new StringReader(xml))
+                {
+                    HeaderFile headerFile = (HeaderFile)serializer.Deserialize(reader);
+                    return headerFile;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new HeaderFile();
+            }
         }
 
         /// <summary>Validates the variables in a file structure are acceptable.</summary>

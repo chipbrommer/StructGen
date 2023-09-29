@@ -46,7 +46,8 @@ namespace StructGen
         {
             // Create the file dialog
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "CSV Files (*.csv)|*.csv|JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*|All Files|*.*";
+            // @todo - reallow csv files when a template gets created and implemented - CSV Files (*.csv)|*.csv|
+            openFileDialog.Filter = "JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*|All Files|*.*";
             openFileDialog.Title = "Select an input file";
 
             if (openFileDialog.ShowDialog() == true)
