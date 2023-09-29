@@ -56,6 +56,7 @@ namespace StructGen
 
                 // Display the file path in the TextBox
                 InputFilePathTextBox.Text = filePath;
+                InputPreviewButton.Visibility = Visibility.Visible;
 
                 // reset parsed flag
                 contentParsed = false;
@@ -163,6 +164,22 @@ namespace StructGen
                 string csharpContent = GetGeneratedContentForType(OutputType.CSharp);
                 previewWindow.AddPreviewTab("C#", csharpContent);
             }
+
+            // Show the preview window
+            previewWindow.ShowDialog();
+        }
+
+        /// <summary>Handles preview button click for input file</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void InputPreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create the preview window
+            PreviewWindow previewWindow = new PreviewWindow();
+
+            // Read the text and add preview tab to preview tabs. 
+            string inputFileContent = File.ReadAllText(InputFilePathTextBox.Text);
+            previewWindow.AddPreviewTab("Input File", inputFileContent);
 
             // Show the preview window
             previewWindow.ShowDialog();

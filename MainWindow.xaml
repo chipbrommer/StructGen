@@ -46,7 +46,10 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
-                            <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
+                            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                <Button x:Name="InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
+                                <Button x:Name="InputPreviewButton"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"  Width="70" Height="20"  Content="Preview" Click="InputPreviewButton_Click" Visibility="Hidden"/>
+                            </StackPanel>
                         </Grid>
 
                         <TextBox Grid.Row="1" x:Name="InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
