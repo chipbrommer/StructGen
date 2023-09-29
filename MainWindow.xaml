@@ -14,106 +14,139 @@
         <BitmapImage UriSource="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
     </Window.Icon>
     <Grid>
-        <Border Margin="10,10,10,10" CornerRadius="10">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="26"/>
-                    <RowDefinition Height="80"/>
-                    <RowDefinition Height="80"/>
-                    <RowDefinition Height="80"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+        <Border Margin="10" CornerRadius="10">
+            <Border CornerRadius="10" Margin="5">
+                <Grid>
+                    <!-- Main Grid Rows -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <!-- Row 0 - Header for StructGen image -->
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="320"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="1" VerticalAlignment="Center" Width="120" Height="20" Content="Download Layouts" Click="DownloadLayouts_Click"/>
-                </Grid>
+                    <!-- Row 0 - Menu Items -->
+                    <Grid Grid.Row="0" Margin="5,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="120" Height="20" Content="Home View" Click="HomeView_Click"/>
+                        <Image Grid.Column="1" Source="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
+                        <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="20" Content="Download Layouts" Click="DownloadLayouts_Click"/>
+                    </Grid>
 
-                <!-- Row 1 - Input file selection -->
-                <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
-                    <Grid Margin="10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
+                    <!-- Row 1 - Main Content View -->
+                    <Border x:Name="homeView" Grid.Row="1" Background="White" CornerRadius="10" Margin="5" Visibility="Visible">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
-                            <StackPanel Orientation="Horizontal" Grid.Column="1">
-                                <Button x:Name="InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
-                                <Button x:Name="InputPreviewButton"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"  Width="70" Height="20"  Content="Preview" Click="InputPreviewButton_Click" Visibility="Hidden"/>
-                            </StackPanel>
+                            <Button Grid.Column="0" x:Name="CreateHeaderButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Height="40" Click="CreateHeaderFile_Click">
+                                <TextBlock Text="Create Header File" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </Button>
+                            <Button Grid.Column="1" x:Name="CreateDocumentButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Height="40" Click="CreateHeaderDocumentation_Click">
+                                <TextBlock Text="Create Header Documentation" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </Button>
                         </Grid>
+                    </Border>
 
-                        <TextBox Grid.Row="1" x:Name="InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
-                    </Grid>
-                </Border>
-
-                <!--Row 2 - File generation type -->
-                <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="5">
-                    <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <GroupBox Grid.Column="0" Header="File Generation Type" HorizontalAlignment="Left" VerticalAlignment="Center">
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox x:Name="CButton" Content="C" Margin="10,0,10,0" />
-                                    <CheckBox x:Name="CppButton" Content="C++" Margin="10,0,10,0" />
-                                    <CheckBox x:Name="CSharpButton" Content="C#" Margin="10,0,10,0" />
-                                </StackPanel>
-                            </StackPanel>
-                        </GroupBox>
-                        <Grid Grid.Column="1">
-                            <CheckBox x:Name="FddButton" Content="Create File Description Document" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Grid>
-                </Border>
-
-                <!--Row 3 - Selectable file output location -->
-                <Border Grid.Row="3" Background="White" CornerRadius="10" Margin="5">
-                    <Grid Margin="10">
+                    <Grid x:Name="parseView" Grid.Row="1" Visibility="Hidden">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="80"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
-                            <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
-                        </Grid>
 
-                        <TextBox Grid.Row="1" x:Name="OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
-                    </Grid>
-                </Border>
+                        <!-- Row 0 - Input file selection -->
+                        <Border Grid.Row="0" Background="White" CornerRadius="10" Margin="5">
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                <!--Row 4 - File generation type -->
-                <Border Grid.Row="4" Background="White" CornerRadius="10" Margin="5">
-                    <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="PreviewButton_Click"/>
-                        <Button Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="GenerateButton_Click"/>
-                        <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
-                            <TextBlock Name="NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                        <Button x:Name="InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
+                                        <Button x:Name="InputPreviewButton"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"  Width="70" Height="20"  Content="Preview" Click="InputPreviewButton_Click" Visibility="Hidden"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBox Grid.Row="1" x:Name="InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                            </Grid>
+                        </Border>
+
+                        <!--Row 1 - File generation type -->
+                        <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <GroupBox Grid.Column="0" Header="File Generation Type" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox x:Name="CButton" Content="C" Margin="10,0,10,0" />
+                                            <CheckBox x:Name="CppButton" Content="C++" Margin="10,0,10,0" />
+                                            <CheckBox x:Name="CSharpButton" Content="C#" Margin="10,0,10,0" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </GroupBox>
+                                <Grid Grid.Column="1">
+                                    <CheckBox x:Name="FddButton" Content="Create File Description Document" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <!--Row 2 - Selectable file output location -->
+                        <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="5">
+                            <Grid Margin="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
+                                    <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                                </Grid>
+
+                                <TextBox Grid.Row="1" x:Name="OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                            </Grid>
+                        </Border>
+
+                        <!--Row 3 - File generation type -->
+                        <Border Grid.Row="3" Background="White" CornerRadius="10" Margin="5">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="PreviewButton_Click"/>
+                                <Button Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="GenerateButton_Click"/>
+                                <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
+                                    <TextBlock Name="NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
+                                </Border>
+                            </Grid>
                         </Border>
                     </Grid>
-                </Border>
-            </Grid>
+
+                    <Grid x:Name="documentView" Grid.Row="1" Visibility="Hidden">
+                        
+                    </Grid>
+                </Grid>
+            </Border>
         </Border>
     </Grid>
 </Window>

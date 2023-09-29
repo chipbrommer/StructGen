@@ -328,5 +328,77 @@ namespace StructGen.Objects
             return 0;
         }
 
+        /// <summary>Parse a C++ Header file into a HeaderFile structure</summary>
+        /// <param name="cppHeaderContent"> -[in]- string containing the file contents</param>
+        /// <returns>HeaderFile structure containing the parsed contents/returns>
+        public static HeaderFile ParseCppHeaderFile(string cppHeaderContent)
+        {
+            HeaderFile headerFile = new HeaderFile();
+
+            // Split the content into lines
+            string[] lines = cppHeaderContent.Split('\n');
+
+            bool parsingStructure = false;
+            Structure structure = new Structure();
+
+            foreach (string line in lines)
+            {
+                if(!parsingStructure)
+                {
+                    // Process each line and extract relevant information
+                    if (line.Contains("@project:"))
+                    {
+                        headerFile.FileInformation.ProjectName = line.Split(':')[1].Trim();
+                    }
+                    else if (line.Contains("@name:"))
+                    {
+                        headerFile.FileInformation.FileName = line.Split(':')[1].Trim();
+                    }
+                    else if (line.Contains("@version:"))
+                    {
+                        headerFile.FileInformation.FileVersion = line.Split(':')[1].Trim();
+                    }
+                    else if (line.Contains("struct"))
+                    {
+                        structure.StructureName = line.Split(' ')[2];
+                        structure.StructureComment = lines[Array.IndexOf(lines, line) - 1].Trim().Trim('/');
+                        parsingStructure = true;
+                    }
+                }
+                else
+                {
+                    // If end of structure is found, handle clean up
+                    if (line.Trim() == "}")
+                    {
+                        headerFile.Structures.Add(structure);
+                        structure = new Structure();
+                        parsingStructure = false; 
+                    }
+                    else
+                    {
+                        // Process variables inside the structure
+                        // Example: "string Name; // The name of the person"
+                        string[] parts = line.Trim().Split(' ');
+                        if (parts.Length >= 2)
+                        {
+                            string type = parts[0];
+                            string name = parts[1].Split(';')[0]; // Remove the semicolon
+                            string comment = line.Split("//")[1].Trim(); // Extract the comment
+
+                            // Create a new Variable object and add it to the current structure
+                            structure.Variables.Add(new Variable
+                            {
+                                Name = name,
+                                Type = type,
+                                Comment = comment
+                            });
+                        }
+                    }
+                }
+            }
+
+            return headerFile;
+        }
+
     }
 }

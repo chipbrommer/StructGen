@@ -349,5 +349,29 @@ namespace StructGen
             NotificationTextBlock.Foreground = Brushes.Black;
             NotificationTextBlock.Text = "";
         }
+
+        private void CreateHeaderFile_Click(object sender, RoutedEventArgs e)
+        {
+            // Toggle Views
+            homeView.Visibility = Visibility.Hidden;
+            parseView.Visibility = Visibility.Visible;
+            documentView.Visibility = Visibility.Hidden;
+        }
+
+        private void CreateHeaderDocumentation_Click(object sender, RoutedEventArgs e)
+        {
+            // Toggle Views
+            homeView.Visibility = Visibility.Hidden;
+            parseView.Visibility = Visibility.Hidden;
+            documentView.Visibility = Visibility.Visible;
+        }
+
+        private void HomeView_Click(object sender, RoutedEventArgs e)
+        {
+            // Toggle Views
+            homeView.Visibility = Visibility.Visible;
+            parseView.Visibility = Visibility.Hidden;
+            documentView.Visibility = Visibility.Hidden;
+        }
     }
 }
