@@ -1,11 +1,15 @@
 ﻿using StructGen.Objects;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media;
+using System.Windows.Threading;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using Window = System.Windows.Window;
+
 
 namespace StructGen
 {
@@ -16,6 +20,7 @@ namespace StructGen
     {
         HeaderFile parsedContent;
         bool contentParsed;
+        private DispatcherTimer notificationTimer;
 
         /// <summary>Enum for available output types</summary>
         public enum OutputType
@@ -30,6 +35,7 @@ namespace StructGen
         {
             InitializeComponent();
 
+            parsedContent = new HeaderFile();
             contentParsed = false;
         }
 
@@ -54,6 +60,9 @@ namespace StructGen
                 // reset parsed flag
                 contentParsed = false;
             }
+
+            // Reset notification if its showing
+            ResetNotification();
         }
 
         /// <summary>Displays a file selector box for the user to browse an output location</summary>
@@ -169,40 +178,65 @@ namespace StructGen
 
             string outputFolderPath = OutputFilePathTextBox.Text;
 
+            int status = 0;
+
             if ((bool)CButton.IsChecked)
             {
                 string cContent = GetGeneratedContentForType(OutputType.C);
-                SaveGeneratedContentToFile(outputFolderPath, OutputType.C, cContent);
+                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.C, cContent);
             }
 
             if ((bool)CppButton.IsChecked)
             {
                 string cppContent = GetGeneratedContentForType(OutputType.Cpp);
-                SaveGeneratedContentToFile(outputFolderPath, OutputType.Cpp, cppContent);
+                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.Cpp, cppContent);
             }
 
             if ((bool)CSharpButton.IsChecked)
             {
                 string csharpContent = GetGeneratedContentForType(OutputType.CSharp);
-                SaveGeneratedContentToFile(outputFolderPath, OutputType.CSharp, csharpContent);
+                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.CSharp, csharpContent);
             }
 
             if((bool)FddButton.IsChecked)
             {
-                GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath);
+                status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath);
             }
+
+            if (status == 0)
+            {
+                NotificationTextBlock.Background = Brushes.Green;
+                NotificationTextBlock.Foreground = Brushes.White;
+                NotificationTextBlock.Text = "COMPLETE";
+            }
+            else
+            {
+                NotificationTextBlock.Background = Brushes.Red;
+                NotificationTextBlock.Foreground = Brushes.White;
+                NotificationTextBlock.Text = "FAILED";
+            }
+
+            // Create and start the timer
+            notificationTimer = new DispatcherTimer();
+            notificationTimer.Interval = TimeSpan.FromSeconds(3);
+            notificationTimer.Tick += (s, args) =>
+            {
+                ResetNotification(); // Reset the notification after 3 seconds
+                notificationTimer.Stop(); // Stop the timer
+            };
+            notificationTimer.Start();
         }
 
         /// <summary>Saves received content to a file with the file ending for the output type</summary>
         /// <param name="outputFolderPath">Folder path to save generated file to.</param>
         /// <param name="outputType">Type of the file to be created.</param>
         /// <param name="content">Content to be written to file.</param>
-        private void SaveGeneratedContentToFile(string outputFolderPath, OutputType outputType, string content)
+        private int SaveGeneratedContentToFile(string outputFolderPath, OutputType outputType, string content)
         {
             if (string.IsNullOrEmpty(content))
             {
                 MessageBox.Show($"No content to save for {outputType}.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                return -1;
             }
 
             string outputExtension = "txt";
@@ -226,6 +260,8 @@ namespace StructGen
 
             // Write the generated content to the file
             System.IO.File.WriteAllText(filePath, content);
+
+            return 0;
         }
 
         /// <summary>Shows an error message</summary>
@@ -235,6 +271,9 @@ namespace StructGen
             MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary>Handles download button click event.</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DownloadLayouts_Click(object sender, RoutedEventArgs e)
         {
             // Create a SaveFileDialog
@@ -285,5 +324,12 @@ namespace StructGen
             }
         }
 
+        /// <summary>Resets the notification to starting state.</summary>
+        private void ResetNotification()
+        {
+            NotificationTextBlock.Background = Brushes.Transparent;
+            NotificationTextBlock.Foreground = Brushes.Black;
+            NotificationTextBlock.Text = "";
+        }
     }
 }

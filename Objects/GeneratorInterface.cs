@@ -3,7 +3,8 @@ using System.Text;
 using Newtonsoft.Json;
 using CsvHelper;
 using System.IO;
-using Word = Microsoft.Office.Interop.Word;
+using Xceed.Document.NET;
+using Xceed.Words.NET;
 
 namespace StructGen.Objects
 {
@@ -253,64 +254,54 @@ namespace StructGen.Objects
         /// <summary>Creates a "File Description Document" based on the HeaderFile.</summary>
         /// <param name="file"> -[in]- HeaderFile structure to create document from.</param>
         /// <param name="outputPath"> -[in]- Path to save the file to.</param>
-        public static void GenerateFileDescriptionDocument(HeaderFile file, string outputPath)
+        public static int GenerateFileDescriptionDocument(HeaderFile file, string outputPath)
         {
-            // Create a new Word application and document
-            Word.Application wordApp = new Word.Application();
-            Word.Document doc = wordApp.Documents.Add();
+            // Create a new Word document
+            var doc = DocX.Create($"{file.File.FileName} - File Description Document");
 
-            // Iterate through the structures and create a table for each
             foreach (var structure in file.Structures)
             {
-                // Create a new table
-                Word.Table table = doc.Tables.Add(doc.Range(), 1, 3); // 1 row, 3 columns
-                table.Borders.Enable = 1; // Enable table borders
+                // Add a heading for the structure
+                doc.InsertParagraph($"Structure: {structure.StructureName}").FontSize(14).Alignment = Alignment.left;
+                doc.InsertParagraph($"Information: {structure.AdditionalInformation}").FontSize(14).Alignment = Alignment.left;
+
+                // Create a table for structure details
+                var table = doc.AddTable(1, 3);
+                table.Design = TableDesign.MediumShading1Accent1; // Optional: Apply a table design
+
+                // Set column widths
+                table.SetWidthsPercentage(new[] { 20f, 30f, 50f });
 
                 // Add table headers
-                table.Cell(1, 1).Range.Text = "Item Number";
-                table.Cell(1, 2).Range.Text = "Item Name";
-                table.Cell(1, 3).Range.Text = "Item Description";
+                table.Rows[0].Cells[0].Paragraphs[0].Append("Item Number").Bold();
+                table.Rows[0].Cells[1].Paragraphs[0].Append("Item Name").Bold();
+                table.Rows[0].Cells[2].Paragraphs[0].Append("Item Description").Bold();
 
-                // Set table column widths
-                table.Columns[1].Width = 50; // Adjust as needed
-                table.Columns[2].Width = 150; // Adjust as needed
-                table.Columns[3].Width = 300; // Adjust as needed
-
-                // Add structure details to the table
                 int itemNumber = 1;
 
                 foreach (var variable in structure.Variables)
                 {
-                    table.Rows.Add();
-                    table.Cell(itemNumber + 1, 1).Range.Text = itemNumber.ToString();
-                    table.Cell(itemNumber + 1, 2).Range.Text = variable.Name;
-                    table.Cell(itemNumber + 1, 3).Range.Text = variable.Comment;
+                    // Add data rows to the table
+                    var row = table.InsertRow();
+                    row.Cells[0].Paragraphs[0].Append(itemNumber.ToString());
+                    row.Cells[1].Paragraphs[0].Append(variable.Name);
+                    row.Cells[2].Paragraphs[0].Append(variable.Comment);
                     itemNumber++;
                 }
 
-                // Add structure name as a title
-                Word.Paragraph title = doc.Paragraphs.Add();
-                title.Range.Text = $"Structure: {structure.StructureName}";
-                title.Range.Bold = 1; // Make it bold
-                title.Range.Font.Size = 14; // Set font size
-                title.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter; // Center-align
-                title.Range.InsertParagraphAfter();
+                // Insert the table into the document
+                doc.InsertTable(table);
 
-                // Release the table COM object to avoid memory leaks
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(table);
+                // Insert a spacer paragraph between tables
+                doc.InsertParagraph().SpacingAfter(20);
             }
 
             // Save the document
             string fileName = $"{file.File.FileName} - Rev {file.DescDoc.Revision} - File Description Document.docx";
             string filePath = System.IO.Path.Combine(outputPath, fileName);
-            doc.SaveAs2(filePath);
+            doc.SaveAs(filePath);
 
-            // Close Word application
-            wordApp.Quit();
-
-            // Release COM objects to avoid memory leaks
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(doc);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
+            return 0;
         }
 
     }
