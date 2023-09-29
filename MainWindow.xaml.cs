@@ -250,10 +250,10 @@ namespace StructGen
 
             string outputFilename;
 
-            if (string.IsNullOrEmpty(parsedContent.File.FileName)) 
+            if (string.IsNullOrEmpty(parsedContent.FileInformation.FileName)) 
             { outputFilename = "DefaultFileName"; }
             else 
-            { outputFilename = parsedContent.File.FileName; }
+            { outputFilename = parsedContent.FileInformation.FileName; }
 
             string fileName = $"{outputFilename}.{outputExtension}";
             string filePath = System.IO.Path.Combine(outputFolderPath, fileName);

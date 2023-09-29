@@ -143,9 +143,9 @@ namespace StructGen.Objects
 
             output.AppendLine(autogenHeader);
             output.AppendLine("/////////////////////////////////////////////////////////////////");
-            output.Append($"//\t@project: {file.File.ProjectName}\r\n");
-            output.Append($"//\t@name:    {file.File.FileName}\r\n");   
-            output.Append($"//\t@version: {file.File.FileVersion}\r\n");
+            output.Append($"//\t@project: {file.FileInformation.ProjectName}\r\n");
+            output.Append($"//\t@name:    {file.FileInformation.FileName}\r\n");   
+            output.Append($"//\t@version: {file.FileInformation.FileVersion}\r\n");
             output.AppendLine("/////////////////////////////////////////////////////////////////");
             output.AppendLine("#include <string>");
             output.AppendLine("#include <cstdint>");
@@ -257,7 +257,7 @@ namespace StructGen.Objects
         public static int GenerateFileDescriptionDocument(HeaderFile file, string outputPath)
         {
             // Create a new Word document
-            var doc = DocX.Create($"{file.File.FileName} - File Description Document");
+            var doc = DocX.Create($"{file.FileInformation.FileName} - File Description Document");
 
             foreach (var structure in file.Structures)
             {
@@ -297,7 +297,7 @@ namespace StructGen.Objects
             }
 
             // Save the document
-            string fileName = $"{file.File.FileName} - Rev {file.DescDoc.Revision} - File Description Document.docx";
+            string fileName = $"{file.FileInformation.FileName} - Rev {file.DescriptionDocument.Revision} - File Description Document.docx";
             string filePath = System.IO.Path.Combine(outputPath, fileName);
             doc.SaveAs(filePath);
 

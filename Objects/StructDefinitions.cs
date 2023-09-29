@@ -10,16 +10,16 @@ namespace StructGen.Objects
     /// <summary> A class to represent an output header file </summary>
     public class HeaderFile
     {
-        public FileInfo File { get; set; }
+        public FileInfo FileInformation { get; set; }
         public List<Structure> Structures { get; set; }
-        public FDD DescDoc { get; set; }
+        public FDD DescriptionDocument { get; set; }
 
         public HeaderFile()
         {
             // Initialize properties with default values
-            File = new FileInfo();
+            FileInformation = new FileInfo();
             Structures = new List<Structure>();
-            DescDoc = new FDD();
+            DescriptionDocument = new FDD();
         }
     }
 
