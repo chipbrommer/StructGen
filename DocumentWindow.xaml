@@ -11,6 +11,7 @@
     <Grid>
         <Border Margin="10" CornerRadius="10" Background="White">
             <!-- Document content will go here -->
+            <DocumentViewer Name="documentViewer" />
         </Border>
     </Grid>
 </Window>

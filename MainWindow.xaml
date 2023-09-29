@@ -50,7 +50,8 @@
                             </Button>
                         </Grid>
                     </Border>
-
+                    
+                    <!-- Row 1 - Parse View - For parsing XML or JSON format files -->
                     <Grid x:Name="parseView" Grid.Row="1" Visibility="Hidden">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="80"/>
@@ -142,8 +143,10 @@
                         </Border>
                     </Grid>
 
+                    <!-- Row 1 - Document View - For parsing code header files into documents-->
                     <Grid x:Name="documentView" Grid.Row="1" Visibility="Hidden">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="80"/>
                             <RowDefinition Height="80"/>
                             <RowDefinition Height="80"/>
                             <RowDefinition Height="*"/>
@@ -189,6 +192,22 @@
                                 </Grid>
 
                                 <TextBox Grid.Row="1" x:Name="DV_OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                            </Grid>
+                        </Border>
+
+                        <!--Row 2 - File generation -->
+                        <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="5">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="DV_PreviewButton_Click"/>
+                                <Button Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="DV_GenerateButton_Click"/>
+                                <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
+                                    <TextBlock Name="DV_NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
+                                </Border>
                             </Grid>
                         </Border>
 

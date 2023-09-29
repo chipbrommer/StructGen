@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
@@ -13,6 +14,7 @@ using Window = System.Windows.Window;
 
 namespace StructGen
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -21,6 +23,7 @@ namespace StructGen
         HeaderFile parsedContent;
         bool contentParsed;
         private DispatcherTimer notificationTimer;
+        string programDataPath;
 
         /// <summary>Enum for available output types</summary>
         public enum OutputType
@@ -35,11 +38,29 @@ namespace StructGen
         {
             InitializeComponent();
 
+            StartupTasks();
+
             parsedContent = new HeaderFile();
             contentParsed = false;
         }
 
-        /// <summary> Parses the input file based on its type</summary>
+        /// <summary>A function to handle specific startup tasks.</summary>
+        private void StartupTasks()
+        {
+            string companyFolder = "InnovativeConcepts";
+            string applicationFolder = "StructGen";
+
+            programDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), companyFolder, applicationFolder);
+
+            // Ensure the ProgramData folder exists, create it if it doesn't
+            if (!Directory.Exists(programDataPath))
+            {
+                Directory.CreateDirectory(programDataPath);
+            }
+        }
+
+        /// <summary> Parses the input file based on its type.</summary>
+        /// <returns>0 if successful, else -1.</returns>
         private int ParseFileContent()
         {
             string filePath = PV_InputFilePathTextBox.Text;
@@ -57,6 +78,33 @@ namespace StructGen
                     break;
                 case ".xml":
                     parsedContent = GeneratorInterface.HandleXmlFile(filePath);
+                    break;
+                default:
+                    if (PV_InputFilePathTextBox.Text.Length == 0) { ShowErrorMessage("Please select an input file."); }
+                    else { ShowErrorMessage("Unsupported input file."); }
+                    return -1;
+            }
+
+            contentParsed = true;
+            return 0;
+        }
+
+        /// <summary>Parse the input header file based on its type.</summary>
+        /// <returns>0 if successful, else -1.</returns>
+        private int ParseHeaderContent()
+        {
+            string filePath = PV_InputFilePathTextBox.Text;
+
+            // Determine the file type based on its extension
+            string fileExtension = System.IO.Path.GetExtension(filePath);
+
+            switch (fileExtension.ToLower())
+            {
+                case ".h":
+                    parsedContent = GeneratorInterface.ParseCppHeaderFile(filePath);
+                    break;
+                case ".cs":
+                    parsedContent = GeneratorInterface.ParseCsharpHeaderFile(filePath);
                     break;
                 default:
                     if (PV_InputFilePathTextBox.Text.Length == 0) { ShowErrorMessage("Please select an input file."); }
@@ -101,6 +149,7 @@ namespace StructGen
         /// <param name="outputFolderPath">Folder path to save generated file to.</param>
         /// <param name="outputType">Type of the file to be created.</param>
         /// <param name="content">Content to be written to file.</param>
+        /// <returns>0 if successful, else -1.</returns>
         private int SaveGeneratedContentToFile(string outputFolderPath, OutputType outputType, string content)
         {
             if (string.IsNullOrEmpty(content))
@@ -399,7 +448,7 @@ namespace StructGen
             // Create the file dialog
             OpenFileDialog openFileDialog = new OpenFileDialog();
             // @todo - reallow csv files when a template gets created and implemented - CSV Files (*.csv)|*.csv|
-            openFileDialog.Filter = "JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*|All Files|*.*";
+            openFileDialog.Filter = "C/C++ Headder (*.h)|*.h|C# Files (*.cs)|*.cs|All Files|*.*";
             openFileDialog.Title = "Select an input file";
 
             if (openFileDialog.ShowDialog() == true)
@@ -413,6 +462,53 @@ namespace StructGen
                 // reset parsed flag
                 contentParsed = false;
             }
+        }
+
+        private void DV_PreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Verify input and output
+            if (DV_InputFilePathTextBox.Text == string.Empty || DV_OutputFilePathTextBox.Text == string.Empty) { return; } 
+
+            // Create the preview window
+            DocumentWindow docWindow = new DocumentWindow();
+
+            // Send it the document filepath
+            docWindow.UpdateDocumentContent(DV_InputFilePathTextBox.Text); 
+
+            // Show the preview window
+            docWindow.ShowDialog();
+        }
+
+        private void DV_GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            string outputFolderPath = PV_OutputFilePathTextBox.Text;
+
+            int status = 0;
+
+            // Handle file here.
+
+            if (status == 0)
+            {
+                PV_NotificationTextBlock.Background = Brushes.Green;
+                PV_NotificationTextBlock.Foreground = Brushes.White;
+                PV_NotificationTextBlock.Text = "COMPLETE";
+            }
+            else
+            {
+                PV_NotificationTextBlock.Background = Brushes.Red;
+                PV_NotificationTextBlock.Foreground = Brushes.White;
+                PV_NotificationTextBlock.Text = "FAILED";
+            }
+
+            // Create and start the timer
+            notificationTimer = new DispatcherTimer();
+            notificationTimer.Interval = TimeSpan.FromSeconds(3);
+            notificationTimer.Tick += (s, args) =>
+            {
+                ResetNotification(); // Reset the notification after 3 seconds
+                notificationTimer.Stop(); // Stop the timer
+            };
+            notificationTimer.Start();
         }
     }
 }

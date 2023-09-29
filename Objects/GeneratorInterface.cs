@@ -400,5 +400,13 @@ namespace StructGen.Objects
             return headerFile;
         }
 
+        /// <summary>Parse a C# Header file into a HeaderFile structure</summary>
+        /// <param name="csHeaderContent"> -[in]- string containing the file contents</param>
+        /// <returns>HeaderFile structure containing the parsed contents/returns>
+        public static HeaderFile ParseCsharpHeaderFile(string csHeaderContent)
+        {
+            HeaderFile headerFile = new HeaderFile();
+            return headerFile;
+        }
     }
 }
