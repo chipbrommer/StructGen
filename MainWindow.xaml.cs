@@ -39,54 +39,6 @@ namespace StructGen
             contentParsed = false;
         }
 
-        /// <summary>Displays a file selector box for the user to browse a file to read in</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void InputBrowseButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Create the file dialog
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            // @todo - reallow csv files when a template gets created and implemented - CSV Files (*.csv)|*.csv|
-            openFileDialog.Filter = "JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*|All Files|*.*";
-            openFileDialog.Title = "Select an input file";
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                // Get the selected file path
-                string filePath = openFileDialog.FileName;
-
-                // Display the file path in the TextBox
-                InputFilePathTextBox.Text = filePath;
-                InputPreviewButton.Visibility = Visibility.Visible;
-
-                // reset parsed flag
-                contentParsed = false;
-            }
-
-            // Reset notification if its showing
-            ResetNotification();
-        }
-
-        /// <summary>Displays a file selector box for the user to browse an output location</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OutputBrowseButton_Click(object sender, RoutedEventArgs e)
-        {
-            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
-            {
-                DialogResult result = folderDialog.ShowDialog();
-
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    // Get the selected folder path
-                    string selectedFolderPath = folderDialog.SelectedPath;
-
-                    // Display the selected folder path in the TextBox
-                    OutputFilePathTextBox.Text = selectedFolderPath;
-                }
-            }
-        }
-
         /// <summary> Parses the input file based on its type</summary>
         private int ParseFileContent()
         {
@@ -134,6 +86,110 @@ namespace StructGen
 
                 default:
                     return string.Empty;
+            }
+        }
+
+        /// <summary>Resets the notification to starting state.</summary>
+        private void ResetNotification()
+        {
+            NotificationTextBlock.Background = Brushes.Transparent;
+            NotificationTextBlock.Foreground = Brushes.Black;
+            NotificationTextBlock.Text = "";
+        }
+
+        /// <summary>Saves received content to a file with the file ending for the output type</summary>
+        /// <param name="outputFolderPath">Folder path to save generated file to.</param>
+        /// <param name="outputType">Type of the file to be created.</param>
+        /// <param name="content">Content to be written to file.</param>
+        private int SaveGeneratedContentToFile(string outputFolderPath, OutputType outputType, string content)
+        {
+            if (string.IsNullOrEmpty(content))
+            {
+                MessageBox.Show($"No content to save for {outputType}.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return -1;
+            }
+
+            string outputExtension = "txt";
+
+            switch (outputType)
+            {
+                case OutputType.C: outputExtension = "h"; break;
+                case OutputType.Cpp: outputExtension = "h"; break;
+                case OutputType.CSharp: outputExtension = "cs"; break;
+            }
+
+            string outputFilename;
+
+            if (string.IsNullOrEmpty(parsedContent.FileInformation.FileName))
+            { outputFilename = "DefaultFileName"; }
+            else
+            { outputFilename = parsedContent.FileInformation.FileName; }
+
+            string fileName = $"{outputFilename}.{outputExtension}";
+            string filePath = System.IO.Path.Combine(outputFolderPath, fileName);
+
+            // Write the generated content to the file
+            System.IO.File.WriteAllText(filePath, content);
+
+            return 0;
+        }
+
+        /// <summary>Shows an error message</summary>
+        /// <param name="message"> -[in]- message to be displayed</param>
+        private void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        //////////////////////////////////////////////////////
+        /// Click Event Handlers
+        //////////////////////////////////////////////////////
+
+        /// <summary>Displays a file selector box for the user to browse a file to read in</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void InputBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create the file dialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            // @todo - reallow csv files when a template gets created and implemented - CSV Files (*.csv)|*.csv|
+            openFileDialog.Filter = "JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*|All Files|*.*";
+            openFileDialog.Title = "Select an input file";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Get the selected file path
+                string filePath = openFileDialog.FileName;
+
+                // Display the file path in the TextBox
+                InputFilePathTextBox.Text = filePath;
+                InputPreviewButton.Visibility = Visibility.Visible;
+
+                // reset parsed flag
+                contentParsed = false;
+            }
+
+            // Reset notification if its showing
+            ResetNotification();
+        }
+
+        /// <summary>Displays a file selector box for the user to browse an output location</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OutputBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            {
+                DialogResult result = folderDialog.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    // Get the selected folder path
+                    string selectedFolderPath = folderDialog.SelectedPath;
+
+                    // Display the selected folder path in the TextBox
+                    OutputFilePathTextBox.Text = selectedFolderPath;
+                }
             }
         }
 
@@ -245,50 +301,6 @@ namespace StructGen
             notificationTimer.Start();
         }
 
-        /// <summary>Saves received content to a file with the file ending for the output type</summary>
-        /// <param name="outputFolderPath">Folder path to save generated file to.</param>
-        /// <param name="outputType">Type of the file to be created.</param>
-        /// <param name="content">Content to be written to file.</param>
-        private int SaveGeneratedContentToFile(string outputFolderPath, OutputType outputType, string content)
-        {
-            if (string.IsNullOrEmpty(content))
-            {
-                MessageBox.Show($"No content to save for {outputType}.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return -1;
-            }
-
-            string outputExtension = "txt";
-
-            switch(outputType)
-            {
-                case OutputType.C: outputExtension = "h"; break;
-                case OutputType.Cpp: outputExtension = "h"; break;
-                case OutputType.CSharp: outputExtension = "cs"; break;
-            }
-
-            string outputFilename;
-
-            if (string.IsNullOrEmpty(parsedContent.FileInformation.FileName)) 
-            { outputFilename = "DefaultFileName"; }
-            else 
-            { outputFilename = parsedContent.FileInformation.FileName; }
-
-            string fileName = $"{outputFilename}.{outputExtension}";
-            string filePath = System.IO.Path.Combine(outputFolderPath, fileName);
-
-            // Write the generated content to the file
-            System.IO.File.WriteAllText(filePath, content);
-
-            return 0;
-        }
-
-        /// <summary>Shows an error message</summary>
-        /// <param name="message"> -[in]- message to be displayed</param>
-        private void ShowErrorMessage(string message)
-        {
-            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
         /// <summary>Handles download button click event.</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -340,14 +352,6 @@ namespace StructGen
                 // Display a success message
                 System.Windows.MessageBox.Show("Layout downloaded successfully!");
             }
-        }
-
-        /// <summary>Resets the notification to starting state.</summary>
-        private void ResetNotification()
-        {
-            NotificationTextBlock.Background = Brushes.Transparent;
-            NotificationTextBlock.Foreground = Brushes.Black;
-            NotificationTextBlock.Text = "";
         }
 
         private void CreateHeaderFile_Click(object sender, RoutedEventArgs e)
