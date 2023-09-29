@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
     <PackageReference Include="DocX" Version="2.5.0" />
+    <PackageReference Include="GemBox.Document" Version="35.0.1480" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 

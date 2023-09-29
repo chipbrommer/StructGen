@@ -1,0 +1,16 @@
+﻿<Window x:Class="StructGen.DocumentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="StructGen - Preview" 
+        Height="400" 
+        Width="600"
+        Background="DarkGray">
+    <Window.Icon>
+        <BitmapImage UriSource="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
+    </Window.Icon>
+    <Grid>
+        <Border Margin="10" CornerRadius="10" Background="White">
+            <!-- Document content will go here -->
+        </Border>
+    </Grid>
+</Window>

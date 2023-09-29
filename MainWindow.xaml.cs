@@ -42,7 +42,7 @@ namespace StructGen
         /// <summary> Parses the input file based on its type</summary>
         private int ParseFileContent()
         {
-            string filePath = InputFilePathTextBox.Text;
+            string filePath = PV_InputFilePathTextBox.Text;
 
             // Determine the file type based on its extension
             string fileExtension = System.IO.Path.GetExtension(filePath);
@@ -59,7 +59,7 @@ namespace StructGen
                     parsedContent = GeneratorInterface.HandleXmlFile(filePath);
                     break;
                 default:
-                    if (InputFilePathTextBox.Text.Length == 0) { ShowErrorMessage("Please select an input file."); }
+                    if (PV_InputFilePathTextBox.Text.Length == 0) { ShowErrorMessage("Please select an input file."); }
                     else { ShowErrorMessage("Unsupported input file."); }
                     return -1;
             }
@@ -92,9 +92,9 @@ namespace StructGen
         /// <summary>Resets the notification to starting state.</summary>
         private void ResetNotification()
         {
-            NotificationTextBlock.Background = Brushes.Transparent;
-            NotificationTextBlock.Foreground = Brushes.Black;
-            NotificationTextBlock.Text = "";
+            PV_NotificationTextBlock.Background = Brushes.Transparent;
+            PV_NotificationTextBlock.Foreground = Brushes.Black;
+            PV_NotificationTextBlock.Text = "";
         }
 
         /// <summary>Saves received content to a file with the file ending for the output type</summary>
@@ -148,7 +148,7 @@ namespace StructGen
         /// <summary>Displays a file selector box for the user to browse a file to read in</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void InputBrowseButton_Click(object sender, RoutedEventArgs e)
+        private void PV_InputBrowseButton_Click(object sender, RoutedEventArgs e)
         {
             // Create the file dialog
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -162,8 +162,8 @@ namespace StructGen
                 string filePath = openFileDialog.FileName;
 
                 // Display the file path in the TextBox
-                InputFilePathTextBox.Text = filePath;
-                InputPreviewButton.Visibility = Visibility.Visible;
+                PV_InputFilePathTextBox.Text = filePath;
+                PV_InputPreviewButton.Visibility = Visibility.Visible;
 
                 // reset parsed flag
                 contentParsed = false;
@@ -187,8 +187,9 @@ namespace StructGen
                     // Get the selected folder path
                     string selectedFolderPath = folderDialog.SelectedPath;
 
-                    // Display the selected folder path in the TextBox
-                    OutputFilePathTextBox.Text = selectedFolderPath;
+                    // Display the selected folder path in the TextBox - Okay to do this for both views
+                    PV_OutputFilePathTextBox.Text = selectedFolderPath;
+                    DV_OutputFilePathTextBox.Text = selectedFolderPath;
                 }
             }
         }
@@ -196,7 +197,7 @@ namespace StructGen
         /// <summary>Handles preview button click event</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PreviewButton_Click(object sender, RoutedEventArgs e)
+        private void PV_PreviewButton_Click(object sender, RoutedEventArgs e)
         {
             // Verify content
             if(!contentParsed) { if(ParseFileContent() < 0) { return; } }
@@ -229,13 +230,13 @@ namespace StructGen
         /// <summary>Handles preview button click for input file</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void InputPreviewButton_Click(object sender, RoutedEventArgs e)
+        private void PV_InputPreviewButton_Click(object sender, RoutedEventArgs e)
         {
             // Create the preview window
             PreviewWindow previewWindow = new PreviewWindow();
 
             // Read the text and add preview tab to preview tabs. 
-            string inputFileContent = File.ReadAllText(InputFilePathTextBox.Text);
+            string inputFileContent = File.ReadAllText(PV_InputFilePathTextBox.Text);
             previewWindow.AddPreviewTab("Input File", inputFileContent);
 
             // Show the preview window
@@ -245,12 +246,12 @@ namespace StructGen
         /// <summary>Handles generate button click event</summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        private void PV_GenerateButton_Click(object sender, RoutedEventArgs e)
         {
             // Verify content
             if (!contentParsed) { if (ParseFileContent() < 0) { return; } }
 
-            string outputFolderPath = OutputFilePathTextBox.Text;
+            string outputFolderPath = PV_OutputFilePathTextBox.Text;
 
             int status = 0;
 
@@ -279,15 +280,15 @@ namespace StructGen
 
             if (status == 0)
             {
-                NotificationTextBlock.Background = Brushes.Green;
-                NotificationTextBlock.Foreground = Brushes.White;
-                NotificationTextBlock.Text = "COMPLETE";
+                PV_NotificationTextBlock.Background = Brushes.Green;
+                PV_NotificationTextBlock.Foreground = Brushes.White;
+                PV_NotificationTextBlock.Text = "COMPLETE";
             }
             else
             {
-                NotificationTextBlock.Background = Brushes.Red;
-                NotificationTextBlock.Foreground = Brushes.White;
-                NotificationTextBlock.Text = "FAILED";
+                PV_NotificationTextBlock.Background = Brushes.Red;
+                PV_NotificationTextBlock.Foreground = Brushes.White;
+                PV_NotificationTextBlock.Text = "FAILED";
             }
 
             // Create and start the timer
@@ -376,6 +377,42 @@ namespace StructGen
             homeView.Visibility = Visibility.Visible;
             parseView.Visibility = Visibility.Hidden;
             documentView.Visibility = Visibility.Hidden;
+
+            // Clear old data in the parseView
+            parsedContent = new HeaderFile();
+            contentParsed = false;
+            PV_InputFilePathTextBox.Text = string.Empty;
+            PV_OutputFilePathTextBox.Text = string.Empty;
+            CButton.IsChecked = false;
+            CppButton.IsChecked = false;
+            CSharpButton.IsChecked = false;
+            FddButton.IsChecked = false;
+
+            // Clear old data in docView
+            DV_InputFilePathTextBox.Text = string.Empty;
+            DV_OutputFilePathTextBox.Text = string.Empty;
+
+        }
+
+        private void DV_InputBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create the file dialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            // @todo - reallow csv files when a template gets created and implemented - CSV Files (*.csv)|*.csv|
+            openFileDialog.Filter = "JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*|All Files|*.*";
+            openFileDialog.Title = "Select an input file";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Get the selected file path
+                string filePath = openFileDialog.FileName;
+
+                // Display the file path in the TextBox
+                DV_InputFilePathTextBox.Text = filePath;
+
+                // reset parsed flag
+                contentParsed = false;
+            }
         }
     }
 }
