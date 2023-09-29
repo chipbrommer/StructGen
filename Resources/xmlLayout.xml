@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <HeaderFile>
-    <file>
+    <FileInformation>
         <ProjectName></ProjectName>
         <FileName></FileName>
         <FileVersion></FileVersion>
         <FileHeader></FileHeader>
-    </file>
-    <structures>
+    </FileInformation>
+    <Structures>
         <Structure>
             <StructureName></StructureName>
             <StructureComment></StructureComment>
             <StructurePacking></StructurePacking>
+            <AdditionalInformation></AdditionalInformation>
             <Variables>
                 <Variable>
                     <Name></Name>
@@ -28,6 +29,7 @@
             <StructureName></StructureName>
             <StructureComment></StructureComment>
             <StructurePacking></StructurePacking>
+            <AdditionalInformation></AdditionalInformation>
             <Variables>
                 <Variable>
                     <Name></Name>
@@ -41,5 +43,8 @@
                 </Variable>
             </Variables>
         </Structure>
-    </structures>
+    </Structures>
+    <DescriptionDocument>
+        <Revision></Revision>
+    </DescriptionDocument>
 </HeaderFile>

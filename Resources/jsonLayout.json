@@ -1,44 +1,50 @@
 {
-  "file": {
-    "projectName": "",
-    "fileName": "",
-    "fileVersion": "",
-    "fileHeader": ""
+  "FileInformation": {
+    "ProjectName": "",
+    "FileName": "",
+    "FileVersion": "",
+    "FileHeader": ""
   },
-  "structures": [
+  "Structures": [
     {
-      "structureName": "",
-      "structureComment": "",
-      "structurePacking": "",
-      "variables": [
+      "StructureName": "",
+      "StructureComment": "",
+      "StructurePacking": "",
+      "AdditionalInformation": "",
+      "Variables": [
         {
-          "name": "",
-          "type": "",
-          "comment": ""
+          "Name": "",
+          "Type": "",
+          "Comment": ""
         },
         {
-          "name": "",
-          "type": "",
-          "comment": ""
+          "Name": "",
+          "Type": "",
+          "Comment": ""
         }
       ]
     },
     {
-      "structureName": "",
-      "structureComment": "",
-      "structurePacking": "",
-      "variables": [
+      "StructureName": "",
+      "StructureComment": "",
+      "StructurePacking": "",
+      "AdditionalInformation": "",
+      "Variables": [
         {
-          "name": "",
-          "type": "",
-          "comment": ""
+          "Name": "",
+          "Type": "",
+          "Comment": ""
         },
         {
-          "name": "",
-          "type": "",
-          "comment": ""
+          "Name": "",
+          "Type": "",
+          "Comment": ""
         }
       ]
     }
-  ]
+  ],
+  "DescriptionDocument": {
+    "Revision": ""
+  }
+
 }
