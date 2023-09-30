@@ -10,6 +10,70 @@
       d:DesignWidth="450"
       Background="{DynamicResource PrimaryBackgroundColor}">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Row 0 - File Selection -->
+        <Border Grid.Row="0" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input header:"/>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Button Style="{DynamicResource ModernButton}" x:Name="DV_InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="DV_InputBrowseButton_Click"/>
+                    </StackPanel>
+                </Grid>
+
+                <TextBox Grid.Row="1" x:Name="DV_InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+            </Grid>
+        </Border>
+
+        <!--Row 1 - Selectable file output location -->
+        <Border Grid.Row="1" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
+                    <Button x:Name="DV_BrowseOutputButton" Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                </Grid>
+
+                <TextBox Grid.Row="1" x:Name="DV_OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+            </Grid>
+        </Border>
+
+        <!--Row 2 - File generation -->
+        <Border Grid.Row="2" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="DV_PreviewButton_Click"/>
+                <Button Style="{DynamicResource ModernButton}" Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="DV_GenerateButton_Click"/>
+                <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
+                    <TextBlock Name="DV_NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
+                </Border>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

@@ -4,11 +4,22 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:StructGen.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Main">
+      mc:Ignorable="d"
+      Title="Main"
+      d:DesignHeight="370" 
+      d:DesignWidth="450"
+      Background="{DynamicResource PrimaryBackgroundColor}">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button Style="{DynamicResource ModernButton}" Grid.Column="0" x:Name="CreateHeaderButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Height="40" Click="CreateHeaderFile_Click">
+            <TextBlock Text="Create Header File" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Button>
+        <Button Style="{DynamicResource ModernButton}" Grid.Column="1" x:Name="CreateDocumentButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Height="40" Click="CreateHeaderDocumentation_Click">
+            <TextBlock Text="Create Header Documentation" TextWrapping="Wrap" TextAlignment="Center"/>
+        </Button>
     </Grid>
 </Page>

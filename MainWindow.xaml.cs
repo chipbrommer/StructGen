@@ -2,11 +2,9 @@
 using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -27,6 +25,13 @@ namespace StructGen
         private DispatcherTimer notificationTimer;
         string programDataPath;
 
+        /// Views
+        //static Pages.Document   documentView;
+        //static Pages.Main       mainView;
+        //static Pages.Parse      parseView;
+        //static Pages.Settings   settingsView;
+        //static Pages.Startup    startupView;
+
         /// <summary>Enum for available output types</summary>
         public enum OutputType
         {
@@ -44,6 +49,13 @@ namespace StructGen
 
             parsedContent = new HeaderFile();
             contentParsed = false;
+
+            //documentView = new Pages.Document();
+            //mainView = new Pages.Main();
+            //parseView = new Pages.Parse();
+            //settingsView = new Pages.Settings();
+            //startupView = new Pages.Startup();
+
         }
 
         /// <summary>A function to handle specific startup tasks.</summary>
