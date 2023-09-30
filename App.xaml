@@ -9,13 +9,14 @@
                 <!-- Themes -->
                 <!--<ResourceDictionary Source="Themes/Dark.xaml"/>-->
                 <!--<ResourceDictionary Source="Themes/Default.xaml"/>-->
-                <!--<ResourceDictionary Source="Themes/Light.xaml"/>-->
-                <ResourceDictionary Source="Themes/Navy.xaml"/>
+                <ResourceDictionary Source="Themes/Light.xaml"/>
+                <!--<ResourceDictionary Source="Themes/Navy.xaml"/>-->
                 
                 <!-- Assets -->
                 
                 <!-- Styles -->
-                
+                <ResourceDictionary Source="Styles/ModernButton.xaml"/>
+                <ResourceDictionary Source="Styles/ModernCheckBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -30,9 +30,9 @@
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="120" Height="20" Content="Home View" Click="HomeView_Click"/>
+                        <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="120" Height="22" Content="Home View" Click="HomeView_Click"/>
                         <Image Grid.Column="1" Source="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
-                        <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="20" Content="Download Layouts" Click="DownloadLayouts_Click"/>
+                        <Button Style="{DynamicResource ModernButton}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="22" Content="Download Layouts" Click="DownloadLayouts_Click"/>
                     </Grid>
 
                     <!-- Row 1 - Main Content View -->
@@ -42,10 +42,10 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Grid.Column="0" x:Name="CreateHeaderButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Height="40" Click="CreateHeaderFile_Click">
+                            <Button Style="{DynamicResource ModernButton}" Grid.Column="0" x:Name="CreateHeaderButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Height="40" Click="CreateHeaderFile_Click">
                                 <TextBlock Text="Create Header File" TextWrapping="Wrap" TextAlignment="Center"/>
                             </Button>
-                            <Button Grid.Column="1" x:Name="CreateDocumentButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Height="40" Click="CreateHeaderDocumentation_Click">
+                            <Button Style="{DynamicResource ModernButton}" Grid.Column="1" x:Name="CreateDocumentButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Height="40" Click="CreateHeaderDocumentation_Click">
                                 <TextBlock Text="Create Header Documentation" TextWrapping="Wrap" TextAlignment="Center"/>
                             </Button>
                         </Grid>
@@ -73,10 +73,10 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
+                                    <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
                                     <StackPanel Orientation="Horizontal" Grid.Column="1">
-                                        <Button x:Name="PV_InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="PV_InputBrowseButton_Click"/>
-                                        <Button x:Name="PV_InputPreviewButton"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"  Width="70" Height="20"  Content="Preview" Click="PV_InputPreviewButton_Click" Visibility="Hidden"/>
+                                        <Button Style="{DynamicResource ModernButton}" x:Name="PV_InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="PV_InputBrowseButton_Click"/>
+                                        <Button Style="{DynamicResource ModernButton}" x:Name="PV_InputPreviewButton"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"  Width="70" Height="20"  Content="Preview" Click="PV_InputPreviewButton_Click" Visibility="Hidden"/>
                                     </StackPanel>
                                 </Grid>
 
@@ -91,17 +91,17 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <GroupBox Grid.Column="0" Header="File Generation Type" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <GroupBox Grid.Column="0" Header="File Generation Type" Foreground="{DynamicResource TextPrimaryColor}" HorizontalAlignment="Left" VerticalAlignment="Center">
                                     <StackPanel Orientation="Vertical">
                                         <StackPanel Orientation="Horizontal">
-                                            <CheckBox x:Name="CButton" Content="C" Margin="10,0,10,0" />
-                                            <CheckBox x:Name="CppButton" Content="C++" Margin="10,0,10,0" />
-                                            <CheckBox x:Name="CSharpButton" Content="C#" Margin="10,0,10,0" />
+                                            <CheckBox x:Name="CButton" Content="C" Foreground="{DynamicResource TextPrimaryColor}" Margin="10,0,10,0" />
+                                            <CheckBox x:Name="CppButton" Content="C++" Foreground="{DynamicResource TextPrimaryColor}" Margin="10,0,10,0" />
+                                            <CheckBox Style="{DynamicResource ModernCheckBox}" x:Name="CSharpButton" Content="C#" Margin="10,0,10,0" />
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>
                                 <Grid Grid.Column="1">
-                                    <CheckBox x:Name="FddButton" Content="Create File Description Document" VerticalAlignment="Center"/>
+                                    <CheckBox x:Name="FddButton" Content="Create File Description Document" Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Center"/>
                                 </Grid>
                             </Grid>
                         </Border>
@@ -118,8 +118,8 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
-                                    <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                                    <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
+                                    <Button Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
                                 </Grid>
 
                                 <TextBox Grid.Row="1" x:Name="PV_OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
@@ -134,8 +134,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="PV_PreviewButton_Click"/>
-                                <Button Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="PV_GenerateButton_Click"/>
+                                <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="PV_PreviewButton_Click"/>
+                                <Button Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="PV_GenerateButton_Click"/>
                                 <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
                                     <TextBlock Name="PV_NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
                                 </Border>
@@ -165,9 +165,9 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input header:"/>
+                                    <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input header:"/>
                                     <StackPanel Orientation="Horizontal" Grid.Column="1">
-                                        <Button x:Name="DV_InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="DV_InputBrowseButton_Click"/>
+                                        <Button Style="{DynamicResource ModernButton}" x:Name="DV_InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="DV_InputBrowseButton_Click"/>
                                     </StackPanel>
                                 </Grid>
 
@@ -187,8 +187,8 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
-                                    <Button Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                                    <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
+                                    <Button Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
                                 </Grid>
 
                                 <TextBox Grid.Row="1" x:Name="DV_OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
@@ -203,8 +203,8 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="DV_PreviewButton_Click"/>
-                                <Button Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="DV_GenerateButton_Click"/>
+                                <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="DV_PreviewButton_Click"/>
+                                <Button Style="{DynamicResource ModernButton}" Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="DV_GenerateButton_Click"/>
                                 <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
                                     <TextBlock Name="DV_NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
                                 </Border>
