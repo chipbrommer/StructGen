@@ -9,7 +9,7 @@
         Height="390" 
         Width="500"
         ResizeMode="NoResize"
-        Background="DarkGray">
+        Background="{DynamicResource SecondaryBackgroundColor}">
     <Window.Icon>
         <BitmapImage UriSource="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
     </Window.Icon>
@@ -36,7 +36,7 @@
                     </Grid>
 
                     <!-- Row 1 - Main Content View -->
-                    <Border x:Name="homeView" Grid.Row="1" Background="White" CornerRadius="10" Margin="5" Visibility="Visible">
+                    <Border x:Name="homeView" Grid.Row="1" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5" Visibility="Visible">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -61,7 +61,7 @@
                         </Grid.RowDefinitions>
 
                         <!-- Row 0 - Input file selection -->
-                        <Border Grid.Row="0" Background="White" CornerRadius="10" Margin="5">
+                        <Border Grid.Row="0" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
                             <Grid Margin="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -85,7 +85,7 @@
                         </Border>
 
                         <!--Row 1 - File generation type -->
-                        <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
+                        <Border Grid.Row="1" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
                             <Grid Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -107,7 +107,7 @@
                         </Border>
 
                         <!--Row 2 - Selectable file output location -->
-                        <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="5">
+                        <Border Grid.Row="2" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
                             <Grid Margin="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -127,7 +127,7 @@
                         </Border>
 
                         <!--Row 3 - File generation type -->
-                        <Border Grid.Row="3" Background="White" CornerRadius="10" Margin="5">
+                        <Border Grid.Row="3" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
                             <Grid Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -153,7 +153,7 @@
                         </Grid.RowDefinitions>
 
                         <!-- Row 0 - File Selection -->
-                        <Border Grid.Row="0" Background="White" CornerRadius="10" Margin="5">
+                        <Border Grid.Row="0" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
                             <Grid Margin="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -176,7 +176,7 @@
                         </Border>
 
                         <!--Row 1 - Selectable file output location -->
-                        <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="5">
+                        <Border Grid.Row="1" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
                             <Grid Margin="10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -196,7 +196,7 @@
                         </Border>
 
                         <!--Row 2 - File generation -->
-                        <Border Grid.Row="2" Background="White" CornerRadius="10" Margin="5">
+                        <Border Grid.Row="2" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
                             <Grid Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>

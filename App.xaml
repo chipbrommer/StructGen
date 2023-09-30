@@ -4,6 +4,19 @@
              xmlns:local="clr-namespace:StructGen"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Themes -->
+                <!--<ResourceDictionary Source="Themes/Dark.xaml"/>-->
+                <!--<ResourceDictionary Source="Themes/Default.xaml"/>-->
+                <!--<ResourceDictionary Source="Themes/Light.xaml"/>-->
+                <ResourceDictionary Source="Themes/Navy.xaml"/>
+                
+                <!-- Assets -->
+                
+                <!-- Styles -->
+                
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

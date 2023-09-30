@@ -329,14 +329,14 @@ namespace StructGen
 
             if (status == 0)
             {
-                PV_NotificationTextBlock.Background = Brushes.Green;
-                PV_NotificationTextBlock.Foreground = Brushes.White;
+                PV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryGreenColor");
+                PV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
                 PV_NotificationTextBlock.Text = "COMPLETE";
             }
             else
             {
-                PV_NotificationTextBlock.Background = Brushes.Red;
-                PV_NotificationTextBlock.Foreground = Brushes.White;
+                PV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryRedColor");
+                PV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
                 PV_NotificationTextBlock.Text = "FAILED";
             }
 
@@ -489,14 +489,14 @@ namespace StructGen
 
             if (status == 0)
             {
-                PV_NotificationTextBlock.Background = Brushes.Green;
-                PV_NotificationTextBlock.Foreground = Brushes.White;
+                PV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryGreenColor");
+                PV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
                 PV_NotificationTextBlock.Text = "COMPLETE";
             }
             else
             {
-                PV_NotificationTextBlock.Background = Brushes.Red;
-                PV_NotificationTextBlock.Foreground = Brushes.White;
+                PV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryRedColor");
+                PV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
                 PV_NotificationTextBlock.Text = "FAILED";
             }
 

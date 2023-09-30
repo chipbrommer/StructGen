@@ -4,7 +4,7 @@
         Title="StructGen - Preview" 
         Height="400" 
         Width="600"
-        Background="DarkGray">
+        Background="{DynamicResource SecondaryBackgroundColor}">
     <Window.Icon>
         <BitmapImage UriSource="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
     </Window.Icon>
