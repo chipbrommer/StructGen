@@ -96,7 +96,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox x:Name="CButton" Content="C" Foreground="{DynamicResource TextPrimaryColor}" Margin="10,0,10,0" />
                                             <CheckBox x:Name="CppButton" Content="C++" Foreground="{DynamicResource TextPrimaryColor}" Margin="10,0,10,0" />
-                                            <CheckBox Style="{DynamicResource ModernCheckBox}" x:Name="CSharpButton" Content="C#" Margin="10,0,10,0" />
+                                            <CheckBox x:Name="CSharpButton" Content="C#" Foreground="{DynamicResource TextPrimaryColor}" Margin="10,0,10,0" />
                                         </StackPanel>
                                     </StackPanel>
                                 </GroupBox>
@@ -119,7 +119,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
-                                    <Button Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                                    <Button x:Name="PV_BrowseOutputButton" Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
                                 </Grid>
 
                                 <TextBox Grid.Row="1" x:Name="PV_OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
@@ -188,7 +188,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
-                                    <Button Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                                    <Button x:Name="DV_BrowseOutputButton" Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
                                 </Grid>
 
                                 <TextBox Grid.Row="1" x:Name="DV_OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>

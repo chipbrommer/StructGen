@@ -2,10 +2,12 @@
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
@@ -80,7 +82,14 @@ namespace StructGen
                     parsedContent = GeneratorInterface.HandleXmlFile(filePath);
                     break;
                 default:
-                    if (PV_InputFilePathTextBox.Text.Length == 0) { ShowErrorMessage("Please select an input file."); }
+                    if (PV_InputFilePathTextBox.Text == string.Empty) 
+                    { 
+                        ShowErrorMessage("Please select an input file."); 
+                    }
+                    else if(PV_OutputFilePathTextBox.Text == string.Empty)
+                    {
+                        ShowErrorMessage("Please select an output location.");
+                    }
                     else { ShowErrorMessage("Unsupported input file."); }
                     return -1;
             }
@@ -93,7 +102,7 @@ namespace StructGen
         /// <returns>0 if successful, else -1.</returns>
         private int ParseHeaderContent()
         {
-            string filePath = PV_InputFilePathTextBox.Text;
+            string filePath = DV_InputFilePathTextBox.Text;
 
             // Determine the file type based on its extension
             string fileExtension = System.IO.Path.GetExtension(filePath);
@@ -107,7 +116,14 @@ namespace StructGen
                     parsedContent = GeneratorInterface.ParseCsharpHeaderFile(filePath);
                     break;
                 default:
-                    if (PV_InputFilePathTextBox.Text.Length == 0) { ShowErrorMessage("Please select an input file."); }
+                    if (DV_InputFilePathTextBox.Text == string.Empty)
+                    {
+                        ShowErrorMessage("Please select an input file.");
+                    }
+                    else if (DV_OutputFilePathTextBox.Text == string.Empty)
+                    {
+                        ShowErrorMessage("Please select an output location.");
+                    }
                     else { ShowErrorMessage("Unsupported input file."); }
                     return -1;
             }
@@ -233,12 +249,25 @@ namespace StructGen
 
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
-                    // Get the selected folder path
-                    string selectedFolderPath = folderDialog.SelectedPath;
+                    Button clickedButton = sender as Button;
 
-                    // Display the selected folder path in the TextBox - Okay to do this for both views
-                    PV_OutputFilePathTextBox.Text = selectedFolderPath;
-                    DV_OutputFilePathTextBox.Text = selectedFolderPath;
+                    // Update the output field text based on which area button was clicked. 
+                    if (clickedButton != null)
+                    {
+                        switch (clickedButton.Name)
+                        {
+                            case "PV_BrowseOutputButton":
+                                PV_OutputFilePathTextBox.Text = folderDialog.SelectedPath;
+                                break;
+
+                            case "DV_BrowseOutputButton":
+                                DV_OutputFilePathTextBox.Text = folderDialog.SelectedPath;
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
                 }
             }
         }
@@ -466,8 +495,8 @@ namespace StructGen
 
         private void DV_PreviewButton_Click(object sender, RoutedEventArgs e)
         {
-            // Verify input and output
-            if (DV_InputFilePathTextBox.Text == string.Empty || DV_OutputFilePathTextBox.Text == string.Empty) { return; } 
+            // Verify content
+            if (!contentParsed) { if (ParseHeaderContent() < 0) { return; } }
 
             // Create the preview window
             DocumentWindow docWindow = new DocumentWindow();
@@ -481,23 +510,27 @@ namespace StructGen
 
         private void DV_GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            string outputFolderPath = PV_OutputFilePathTextBox.Text;
+            // Verify content
+            if (!contentParsed) { if (ParseHeaderContent() < 0) { return; } }
+
+            string outputFolderPath = DV_OutputFilePathTextBox.Text;
 
             int status = 0;
 
-            // Handle file here.
+            // Generate the File Description Document
+            status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath);
 
             if (status == 0)
             {
-                PV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryGreenColor");
-                PV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                PV_NotificationTextBlock.Text = "COMPLETE";
+                DV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryGreenColor");
+                DV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
+                DV_NotificationTextBlock.Text = "COMPLETE";
             }
             else
             {
-                PV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryRedColor");
-                PV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                PV_NotificationTextBlock.Text = "FAILED";
+                DV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryRedColor");
+                DV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
+                DV_NotificationTextBlock.Text = "FAILED";
             }
 
             // Create and start the timer

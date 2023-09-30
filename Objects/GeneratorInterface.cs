@@ -329,14 +329,16 @@ namespace StructGen.Objects
         }
 
         /// <summary>Parse a C++ Header file into a HeaderFile structure</summary>
-        /// <param name="cppHeaderContent"> -[in]- string containing the file contents</param>
+        /// <param name="filepath"> -[in]- string containing the filepath to open/read</param>
         /// <returns>HeaderFile structure containing the parsed contents/returns>
-        public static HeaderFile ParseCppHeaderFile(string cppHeaderContent)
+        public static HeaderFile ParseCppHeaderFile(string filepath)
         {
             HeaderFile headerFile = new HeaderFile();
 
+            string content = File.ReadAllText(filepath);
+
             // Split the content into lines
-            string[] lines = cppHeaderContent.Split('\n');
+            string[] lines = content.Split('\n');
 
             bool parsingStructure = false;
             Structure structure = new Structure();
