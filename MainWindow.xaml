@@ -31,7 +31,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="120" Height="22" Content="Home View" Click="HomeView_Click"/>
-                        <Image Grid.Column="1" Source="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico"/>
+                        <Image Grid.Column="1" Source="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico" MouseRightButtonDown="OpenSettingsView"/>
                         <Button Style="{DynamicResource ModernButton}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="22" Content="Download Layouts" Click="DownloadLayouts_Click"/>
                     </Grid>
 

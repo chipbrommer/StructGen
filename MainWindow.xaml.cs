@@ -543,5 +543,10 @@ namespace StructGen
             };
             notificationTimer.Start();
         }
+
+        private void OpenSettingsView(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
