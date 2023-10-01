@@ -26,11 +26,20 @@ namespace StructGen
         string programDataPath;
 
         /// Views
-        //static Pages.Document   documentView;
-        //static Pages.Main       mainView;
-        //static Pages.Parse      parseView;
-        //static Pages.Settings   settingsView;
-        //static Pages.Startup    startupView;
+        static Pages.Document   documentView;
+        static Pages.Main       mainView;
+        static Pages.Parse      parseView;
+        static Pages.Settings   settingsView;
+        static Pages.Startup startupView;
+
+        public enum View
+        {
+            Document,
+            Main,
+            Parse,
+            Settings,
+            Startup
+        }
 
         /// <summary>Enum for available output types</summary>
         public enum OutputType
@@ -50,12 +59,25 @@ namespace StructGen
             parsedContent = new HeaderFile();
             contentParsed = false;
 
-            //documentView = new Pages.Document();
-            //mainView = new Pages.Main();
-            //parseView = new Pages.Parse();
-            //settingsView = new Pages.Settings();
-            //startupView = new Pages.Startup();
+            documentView = new Pages.Document();
+            mainView = new Pages.Main();
+            parseView = new Pages.Parse();
+            settingsView = new Pages.Settings();
+            startupView = new Pages.Startup();
 
+        }
+
+        public void ChangeView(View view)
+        {
+            switch(view)
+            {
+                case View.Document: ContentArea.Content = documentView; break;
+                case View.Main:     ContentArea.Content = mainView;     break;
+                case View.Parse:    ContentArea.Content = parseView;    break;
+                case View.Settings: ContentArea.Content = settingsView; break;
+                case View.Startup:  ContentArea.Content = startupView;  break;
+                default:                                                break;
+            }
         }
 
         /// <summary>A function to handle specific startup tasks.</summary>
@@ -114,7 +136,7 @@ namespace StructGen
         /// <returns>0 if successful, else -1.</returns>
         private int ParseHeaderContent()
         {
-            string filePath = DV_InputFilePathTextBox.Text;
+            string filePath = documentView.InputFilePathTextBox.Text;
 
             // Determine the file type based on its extension
             string fileExtension = System.IO.Path.GetExtension(filePath);
@@ -128,11 +150,11 @@ namespace StructGen
                     parsedContent = GeneratorInterface.ParseCsharpHeaderFile(filePath);
                     break;
                 default:
-                    if (DV_InputFilePathTextBox.Text == string.Empty)
+                    if (documentView.InputFilePathTextBox.Text == string.Empty)
                     {
                         ShowErrorMessage("Please select an input file.");
                     }
-                    else if (DV_OutputFilePathTextBox.Text == string.Empty)
+                    else if (documentView.OutputFilePathTextBox.Text == string.Empty)
                     {
                         ShowErrorMessage("Please select an output location.");
                     }
@@ -165,13 +187,6 @@ namespace StructGen
             }
         }
 
-        /// <summary>Resets the notification to starting state.</summary>
-        private void ResetNotification()
-        {
-            PV_NotificationTextBlock.Background = Brushes.Transparent;
-            PV_NotificationTextBlock.Foreground = Brushes.Black;
-            PV_NotificationTextBlock.Text = "";
-        }
 
         /// <summary>Saves received content to a file with the file ending for the output type</summary>
         /// <param name="outputFolderPath">Folder path to save generated file to.</param>
@@ -221,176 +236,6 @@ namespace StructGen
         //////////////////////////////////////////////////////
         /// Click Event Handlers
         //////////////////////////////////////////////////////
-
-        /// <summary>Displays a file selector box for the user to browse a file to read in</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PV_InputBrowseButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Create the file dialog
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            // @todo - reallow csv files when a template gets created and implemented - CSV Files (*.csv)|*.csv|
-            openFileDialog.Filter = "JSON Files (*.json)|*.json|XML Files (*.xml)|*.xml*|All Files|*.*";
-            openFileDialog.Title = "Select an input file";
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                // Get the selected file path
-                string filePath = openFileDialog.FileName;
-
-                // Display the file path in the TextBox
-                PV_InputFilePathTextBox.Text = filePath;
-                PV_InputPreviewButton.Visibility = Visibility.Visible;
-
-                // reset parsed flag
-                contentParsed = false;
-            }
-
-            // Reset notification if its showing
-            ResetNotification();
-        }
-
-        /// <summary>Displays a file selector box for the user to browse an output location</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OutputBrowseButton_Click(object sender, RoutedEventArgs e)
-        {
-            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
-            {
-                DialogResult result = folderDialog.ShowDialog();
-
-                if (result == System.Windows.Forms.DialogResult.OK)
-                {
-                    Button clickedButton = sender as Button;
-
-                    // Update the output field text based on which area button was clicked. 
-                    if (clickedButton != null)
-                    {
-                        switch (clickedButton.Name)
-                        {
-                            case "PV_BrowseOutputButton":
-                                PV_OutputFilePathTextBox.Text = folderDialog.SelectedPath;
-                                break;
-
-                            case "DV_BrowseOutputButton":
-                                DV_OutputFilePathTextBox.Text = folderDialog.SelectedPath;
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>Handles preview button click event</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PV_PreviewButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Verify content
-            if(!contentParsed) { if(ParseFileContent() < 0) { return; } }
-
-            // Create the preview window
-            PreviewWindow previewWindow = new PreviewWindow();
-
-            if ((bool)CButton.IsChecked)
-            {
-                string cContent = GetGeneratedContentForType(OutputType.C);
-                previewWindow.AddPreviewTab("C", cContent);
-            }
-
-            if ((bool)CppButton.IsChecked)
-            {
-                string cppContent = GetGeneratedContentForType(OutputType.Cpp);
-                previewWindow.AddPreviewTab("C++", cppContent);
-            }
-
-            if ((bool)CSharpButton.IsChecked)
-            {
-                string csharpContent = GetGeneratedContentForType(OutputType.CSharp);
-                previewWindow.AddPreviewTab("C#", csharpContent);
-            }
-
-            // Show the preview window
-            previewWindow.ShowDialog();
-        }
-
-        /// <summary>Handles preview button click for input file</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PV_InputPreviewButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Create the preview window
-            PreviewWindow previewWindow = new PreviewWindow();
-
-            // Read the text and add preview tab to preview tabs. 
-            string inputFileContent = File.ReadAllText(PV_InputFilePathTextBox.Text);
-            previewWindow.AddPreviewTab("Input File", inputFileContent);
-
-            // Show the preview window
-            previewWindow.ShowDialog();
-        }
-
-        /// <summary>Handles generate button click event</summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PV_GenerateButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Verify content
-            if (!contentParsed) { if (ParseFileContent() < 0) { return; } }
-
-            string outputFolderPath = PV_OutputFilePathTextBox.Text;
-
-            int status = 0;
-
-            if ((bool)CButton.IsChecked)
-            {
-                string cContent = GetGeneratedContentForType(OutputType.C);
-                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.C, cContent);
-            }
-
-            if ((bool)CppButton.IsChecked)
-            {
-                string cppContent = GetGeneratedContentForType(OutputType.Cpp);
-                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.Cpp, cppContent);
-            }
-
-            if ((bool)CSharpButton.IsChecked)
-            {
-                string csharpContent = GetGeneratedContentForType(OutputType.CSharp);
-                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.CSharp, csharpContent);
-            }
-
-            if((bool)FddButton.IsChecked)
-            {
-                status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath);
-            }
-
-            if (status == 0)
-            {
-                PV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryGreenColor");
-                PV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                PV_NotificationTextBlock.Text = "COMPLETE";
-            }
-            else
-            {
-                PV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryRedColor");
-                PV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                PV_NotificationTextBlock.Text = "FAILED";
-            }
-
-            // Create and start the timer
-            notificationTimer = new DispatcherTimer();
-            notificationTimer.Interval = TimeSpan.FromSeconds(3);
-            notificationTimer.Tick += (s, args) =>
-            {
-                ResetNotification(); // Reset the notification after 3 seconds
-                notificationTimer.Stop(); // Stop the timer
-            };
-            notificationTimer.Start();
-        }
 
         /// <summary>Handles download button click event.</summary>
         /// <param name="sender"></param>
@@ -447,118 +292,31 @@ namespace StructGen
 
         private void CreateHeaderFile_Click(object sender, RoutedEventArgs e)
         {
-            // Toggle Views
-            homeView.Visibility = Visibility.Hidden;
-            parseView.Visibility = Visibility.Visible;
-            documentView.Visibility = Visibility.Hidden;
+            ContentArea.Content = parseView;
         }
 
         private void CreateHeaderDocumentation_Click(object sender, RoutedEventArgs e)
         {
-            // Toggle Views
-            homeView.Visibility = Visibility.Hidden;
-            parseView.Visibility = Visibility.Hidden;
-            documentView.Visibility = Visibility.Visible;
+            ContentArea.Content = documentView;
         }
 
         private void HomeView_Click(object sender, RoutedEventArgs e)
         {
             // Toggle Views
-            homeView.Visibility = Visibility.Visible;
-            parseView.Visibility = Visibility.Hidden;
-            documentView.Visibility = Visibility.Hidden;
+            ContentArea.Content = mainView;
 
             // Clear old data in the parseView
             parsedContent = new HeaderFile();
             contentParsed = false;
-            PV_InputFilePathTextBox.Text = string.Empty;
-            PV_OutputFilePathTextBox.Text = string.Empty;
-            CButton.IsChecked = false;
-            CppButton.IsChecked = false;
-            CSharpButton.IsChecked = false;
-            FddButton.IsChecked = false;
 
-            // Clear old data in docView
-            DV_InputFilePathTextBox.Text = string.Empty;
-            DV_OutputFilePathTextBox.Text = string.Empty;
-
-        }
-
-        private void DV_InputBrowseButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Create the file dialog
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            // @todo - reallow csv files when a template gets created and implemented - CSV Files (*.csv)|*.csv|
-            openFileDialog.Filter = "C/C++ Headder (*.h)|*.h|C# Files (*.cs)|*.cs|All Files|*.*";
-            openFileDialog.Title = "Select an input file";
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                // Get the selected file path
-                string filePath = openFileDialog.FileName;
-
-                // Display the file path in the TextBox
-                DV_InputFilePathTextBox.Text = filePath;
-
-                // reset parsed flag
-                contentParsed = false;
-            }
-        }
-
-        private void DV_PreviewButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Verify content
-            if (!contentParsed) { if (ParseHeaderContent() < 0) { return; } }
-
-            // Create the preview window
-            DocumentWindow docWindow = new DocumentWindow();
-
-            // Send it the document filepath
-            docWindow.UpdateDocumentContent(DV_InputFilePathTextBox.Text); 
-
-            // Show the preview window
-            docWindow.ShowDialog();
-        }
-
-        private void DV_GenerateButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Verify content
-            if (!contentParsed) { if (ParseHeaderContent() < 0) { return; } }
-
-            string outputFolderPath = DV_OutputFilePathTextBox.Text;
-
-            int status = 0;
-
-            // Generate the File Description Document
-            status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath);
-
-            if (status == 0)
-            {
-                DV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryGreenColor");
-                DV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                DV_NotificationTextBlock.Text = "COMPLETE";
-            }
-            else
-            {
-                DV_NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryRedColor");
-                DV_NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                DV_NotificationTextBlock.Text = "FAILED";
-            }
-
-            // Create and start the timer
-            notificationTimer = new DispatcherTimer();
-            notificationTimer.Interval = TimeSpan.FromSeconds(3);
-            notificationTimer.Tick += (s, args) =>
-            {
-                ResetNotification(); // Reset the notification after 3 seconds
-                notificationTimer.Stop(); // Stop the timer
-            };
-            notificationTimer.Start();
+            // Clear old data
+            parseView.Reset();
+            documentView.Reset();
         }
 
         private void OpenSettingsView(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-
+            ContentArea.Content = settingsView;
         }
     }
 }

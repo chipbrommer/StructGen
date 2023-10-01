@@ -24,5 +24,15 @@ namespace StructGen.Pages
         {
             InitializeComponent();
         }
+
+        private void CreateHeaderFile_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.ChangeView(MainWindow.View.Parse);
+        }
+
+        private void CreateHeaderDocumentation_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.ChangeView(MainWindow.View.Document);
+        }
     }
 }

@@ -8,7 +8,7 @@
       Title="Parse"
       d:DesignHeight="370" 
       d:DesignWidth="450"
-      Background="{DynamicResource PrimaryBackgroundColor}">
+      Background="{DynamicResource SecondaryBackgroundColor}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -33,12 +33,12 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input file:"/>
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <Button Style="{DynamicResource ModernButton}" x:Name="PV_InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="PV_InputBrowseButton_Click"/>
-                        <Button Style="{DynamicResource ModernButton}" x:Name="PV_InputPreviewButton"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"  Width="70" Height="20"  Content="Preview" Click="PV_InputPreviewButton_Click" Visibility="Hidden"/>
+                        <Button Style="{DynamicResource ModernButton}" x:Name="InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
+                        <Button Style="{DynamicResource ModernButton}" x:Name="InputPreviewButton"  VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,0,0,0"  Width="70" Height="20"  Content="Preview" Click="InputPreviewButton_Click" Visibility="Hidden"/>
                     </StackPanel>
                 </Grid>
 
-                <TextBox Grid.Row="1" x:Name="PV_InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                <TextBox Grid.Row="1" x:Name="InputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
             </Grid>
         </Border>
 
@@ -77,10 +77,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select output location:"/>
-                    <Button x:Name="PV_BrowseOutputButton" Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
+                    <Button x:Name="BrowseOutputButton" Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="70" Height="20"  Content="Browse" Click="OutputBrowseButton_Click"/>
                 </Grid>
 
-                <TextBox Grid.Row="1" x:Name="PV_OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+                <TextBox Grid.Row="1" x:Name="OutputFilePathTextBox" IsReadOnly="True" Width="auto" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
             </Grid>
         </Border>
 
@@ -92,10 +92,10 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="PV_PreviewButton_Click"/>
-                <Button Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="PV_GenerateButton_Click"/>
+                <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="PreviewButton_Click"/>
+                <Button Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="GenerateButton_Click"/>
                 <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
-                    <TextBlock Name="PV_NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
+                    <TextBlock Name="NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
                 </Border>
             </Grid>
         </Border>

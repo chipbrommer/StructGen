@@ -8,7 +8,7 @@
       Title="Settings"
       d:DesignHeight="370" 
       d:DesignWidth="450"
-      Background="{DynamicResource PrimaryBackgroundColor}">
+      Background="{DynamicResource SecondaryBackgroundColor}">
 
     <Grid>
         
