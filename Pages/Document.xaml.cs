@@ -1,20 +1,14 @@
 ﻿using StructGen.Objects;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+using System.Windows.Forms;
 using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using MessageBox = System.Windows.MessageBox;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 
 namespace StructGen.Pages
 {
@@ -23,29 +17,117 @@ namespace StructGen.Pages
     /// </summary>
     public partial class Document : Page
     {
+        private DispatcherTimer notificationTimer;
+        private HeaderFile parsedContent;
+        private bool contentParsed;
+
+        private enum Notification
+        {
+            Off,
+            Failed,
+            Success
+        }
+
         public Document()
         {
             InitializeComponent();
+
+            notificationTimer = new DispatcherTimer();
+            parsedContent = new HeaderFile();
+            contentParsed = false;
+
+            Reset();
         }
 
         public void Reset()
         {
+            parsedContent = new();
+            contentParsed = false;
             InputFilePathTextBox.Text = string.Empty;
             OutputFilePathTextBox.Text = string.Empty;
+            SetNotification(Notification.Off);
         }
 
-        public void SetNotification()
+        private void SetNotification(Notification noti)
         {
+            switch(noti)
+            {
+                case Notification.Failed:
+                    {
+                        NotificationTextBlock.Visibility = Visibility.Visible;
+                        NotificationTextBlock.SetResourceReference(TextBlock.BackgroundProperty, "PrimaryRedColor");
+                        NotificationTextBlock.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryTextColor");
+                        NotificationTextBlock.Text = "Failed";
+                        break;
+                    }
+                case Notification.Success:
+                    {
+                        NotificationTextBlock.Visibility = Visibility.Visible;
+                        NotificationTextBlock.SetResourceReference(TextBlock.BackgroundProperty, "PrimaryGreenColor");
+                        NotificationTextBlock.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryTextColor");
+                        NotificationTextBlock.Text = "Success";
+                        break;
+                    }
+                    // Intentional fall through
+                default:
+                case Notification.Off:
+                    {
+                        NotificationTextBlock.Visibility = Visibility.Hidden;
+                        break;
+                    }
+            }
+        }
 
+        /// <summary>Shows an error message</summary>
+        /// <param name="message"> -[in]- message to be displayed</param>
+        private static void ShowErrorMessage(string message)
+        {
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        /// <summary>Parse the input header file based on its type.</summary>
+        /// <returns>0 if successful, else -1.</returns>
+        private int ParseHeaderContent()
+        {
+            string filePath = InputFilePathTextBox.Text;
+
+            // Determine the file type based on its extension
+            string fileExtension = System.IO.Path.GetExtension(filePath);
+
+            switch (fileExtension.ToLower())
+            {
+                case ".h":
+                    parsedContent = GeneratorInterface.ParseCppHeaderFile(filePath);
+                    break;
+                case ".cs":
+                    parsedContent = GeneratorInterface.ParseCsharpHeaderFile(filePath);
+                    break;
+                default:
+                    if (InputFilePathTextBox.Text == string.Empty)
+                    {
+                        ShowErrorMessage("Please select an input file.");
+                    }
+                    else if (OutputFilePathTextBox.Text == string.Empty)
+                    {
+                        ShowErrorMessage("Please select an output location.");
+                    }
+                    else { ShowErrorMessage("Unsupported input file."); }
+                    return -1;
+            }
+
+            contentParsed = true;
+            return 0;
         }
 
         private void InputBrowseButton_Click(object sender, RoutedEventArgs e)
         {
             // Create the file dialog
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            // @todo - reallow csv files when a template gets created and implemented - CSV Files (*.csv)|*.csv|
-            openFileDialog.Filter = "C/C++ Headder (*.h)|*.h|C# Files (*.cs)|*.cs|All Files|*.*";
-            openFileDialog.Title = "Select an input file";
+            OpenFileDialog openFileDialog = new()
+            {
+                // Set the filter
+                Filter = "C/C++ Headder (*.h)|*.h|C# Files (*.cs)|*.cs|All Files|*.*",
+                Title = "Select an input file"
+            };
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -58,6 +140,23 @@ namespace StructGen.Pages
                 // reset parsed flag
                 contentParsed = false;
             }
+
+            // Reset notification if its showing
+            SetNotification(Notification.Off);
+        }
+
+        /// <summary>Displays a file selector box for the user to browse an output location</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OutputBrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            using FolderBrowserDialog folderDialog = new();
+            DialogResult result = folderDialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                OutputFilePathTextBox.Text = folderDialog.SelectedPath;
+            }
         }
 
         private void PreviewButton_Click(object sender, RoutedEventArgs e)
@@ -66,7 +165,7 @@ namespace StructGen.Pages
             if (!contentParsed) { if (ParseHeaderContent() < 0) { return; } }
 
             // Create the preview window
-            DocumentWindow docWindow = new DocumentWindow();
+            DocumentWindow docWindow = new();
 
             // Send it the document filepath
             docWindow.UpdateDocumentContent(InputFilePathTextBox.Text);
@@ -101,11 +200,13 @@ namespace StructGen.Pages
             }
 
             // Create and start the timer
-            notificationTimer = new DispatcherTimer();
-            notificationTimer.Interval = TimeSpan.FromSeconds(3);
+            notificationTimer = new()
+            {
+                Interval = TimeSpan.FromSeconds(3)
+            };
             notificationTimer.Tick += (s, args) =>
             {
-                ResetNotification(); // Reset the notification after 3 seconds
+                SetNotification(Notification.Off); // Reset the notification after 3 seconds
                 notificationTimer.Stop(); // Stop the timer
             };
             notificationTimer.Start();

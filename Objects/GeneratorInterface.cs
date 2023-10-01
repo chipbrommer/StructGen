@@ -26,7 +26,7 @@ namespace StructGen.Objects
         }
 
         /// <summary>enum for acceptable variable types.</summary>
-        static readonly List<string> validTypes = new List<string>
+        static readonly List<string> validTypes = new()
         {
             "int",
             "int8_t",
@@ -62,9 +62,18 @@ namespace StructGen.Objects
             try
             {
                 string json = File.ReadAllText(filepath);
-                return JsonConvert.DeserializeObject<HeaderFile>(json);
+                var deserializedObject = JsonConvert.DeserializeObject<HeaderFile>(json);
+
+                if (deserializedObject != null)
+                {
+                    return deserializedObject;
+                }
+                else
+                {
+                    return new HeaderFile();
+                }
             }
-            catch (Exception ex)
+            catch
             {
                 return new HeaderFile();
             }
@@ -79,15 +88,21 @@ namespace StructGen.Objects
             {
                 string xml = File.ReadAllText(filepath);
 
-                XmlSerializer serializer = new XmlSerializer(typeof(HeaderFile));
+                XmlSerializer serializer = new(typeof(HeaderFile));
 
-                using (StringReader reader = new StringReader(xml))
+                using StringReader reader = new(xml);
+                HeaderFile headerFile = (HeaderFile)serializer.Deserialize(reader);
+
+                if (headerFile != null)
                 {
-                    HeaderFile headerFile = (HeaderFile)serializer.Deserialize(reader);
                     return headerFile;
                 }
+                else
+                {
+                    return new HeaderFile();
+                }
             }
-            catch (Exception ex)
+            catch
             {
                 return new HeaderFile();
             }
@@ -98,7 +113,7 @@ namespace StructGen.Objects
         /// <returns>A list of variable names with improper types.</returns>
         private static List<string> ValidateVariableTypes(HeaderFile file)
         {
-            List<string> invalidVariables = new List<string>();
+            List<string> invalidVariables = new();
 
             foreach (var structure in file.Structures)
             {
@@ -119,7 +134,7 @@ namespace StructGen.Objects
         /// <returns>string of output file content.</returns>
         public static string GenerateHeaderC(HeaderFile file)
         {
-            StringBuilder output = new StringBuilder();
+            StringBuilder output = new();
 
             output.AppendLine(autogenHeader);
 
@@ -163,7 +178,7 @@ namespace StructGen.Objects
         /// <returns>string of output file content.</returns>
         public static string GenerateHeaderCPP(HeaderFile file)
         {
-            StringBuilder output = new StringBuilder();
+            StringBuilder output = new();
 
             output.AppendLine(autogenHeader);
             output.AppendLine("/////////////////////////////////////////////////////////////////");
@@ -232,7 +247,7 @@ namespace StructGen.Objects
         /// <returns>string of output file content.</returns>
         public static string GenerateHeaderCSHARP(HeaderFile file)
         {
-            StringBuilder output = new StringBuilder();
+            StringBuilder output = new();
 
             output.AppendLine(autogenHeader);
             output.AppendLine("using System;");
@@ -333,7 +348,7 @@ namespace StructGen.Objects
         /// <returns>HeaderFile structure containing the parsed contents/returns>
         public static HeaderFile ParseCppHeaderFile(string filepath)
         {
-            HeaderFile headerFile = new HeaderFile();
+            HeaderFile headerFile = new();
 
             string content = File.ReadAllText(filepath);
 
@@ -341,7 +356,7 @@ namespace StructGen.Objects
             string[] lines = content.Split('\n');
 
             bool parsingStructure = false;
-            Structure structure = new Structure();
+            Structure structure = new();
 
             foreach (string line in lines)
             {
@@ -373,7 +388,7 @@ namespace StructGen.Objects
                     if (line.Trim() == "}")
                     {
                         headerFile.Structures.Add(structure);
-                        structure = new Structure();
+                        structure = new();
                         parsingStructure = false; 
                     }
                     else
@@ -407,7 +422,10 @@ namespace StructGen.Objects
         /// <returns>HeaderFile structure containing the parsed contents/returns>
         public static HeaderFile ParseCsharpHeaderFile(string csHeaderContent)
         {
-            HeaderFile headerFile = new HeaderFile();
+            HeaderFile headerFile = new();
+
+            // @todo - handle cs file parsing. 
+
             return headerFile;
         }
     }

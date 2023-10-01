@@ -27,12 +27,12 @@ namespace StructGen.Pages
 
         private void CreateHeaderFile_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ChangeView(MainWindow.View.Parse);
+            MainWindow.Instance.ChangeView(MainWindow.View.Parse);
         }
 
         private void CreateHeaderDocumentation_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.ChangeView(MainWindow.View.Document);
+            MainWindow.Instance.ChangeView(MainWindow.View.Document);
         }
     }
 }

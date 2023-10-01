@@ -32,7 +32,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Foreground="{DynamicResource TextPrimaryColor}" VerticalAlignment="Top" Margin="0 0 30 0" FontSize="12" Text="Select input header:"/>
                     <StackPanel Orientation="Horizontal" Grid.Column="1">
-                        <Button Style="{DynamicResource ModernButton}" x:Name="InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="DV_InputBrowseButton_Click"/>
+                        <Button Style="{DynamicResource ModernButton}" x:Name="InputBrowseButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,10,0" Width="70" Height="20"  Content="Browse" Click="InputBrowseButton_Click"/>
                     </StackPanel>
                 </Grid>
 
@@ -71,7 +71,7 @@
                 <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="PreviewButton_Click"/>
                 <Button Style="{DynamicResource ModernButton}" Grid.Column="1"  VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="GenerateButton_Click"/>
                 <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
-                    <TextBlock Name="NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
+                    <TextBlock Name="NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
                 </Border>
             </Grid>
         </Border>
