@@ -18,7 +18,7 @@ namespace StructGen
     public partial class MainWindow : Window
     {
         public static MainWindow Instance = new();
-        public static string programDataPath = string.Empty;
+        public string programDataPath = string.Empty;
         private View previousView;
         private View currentView;
         private readonly string companyFolder = "InnovativeConcepts";
@@ -210,11 +210,6 @@ namespace StructGen
             {
                 ChangeView(View.Settings);
             }
-        }
-
-        public string GetProgramFolder()
-        {
-            return programDataPath;
         }
     }
 }

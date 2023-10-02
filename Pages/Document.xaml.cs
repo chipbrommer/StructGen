@@ -163,15 +163,22 @@ namespace StructGen.Pages
             // Verify content
             if (!contentParsed) { if (ParseHeaderContent() < 0) { return; } }
 
+            // Verify Output location
+            if (OutputFilePathTextBox.Text == string.Empty)
+            {
+                ShowErrorMessage("Please select an output location.");
+                return;
+            }
+
             // Create the temporary output file
-            string filename = $"{parsedContent.FileInformation.FileName} - File Description Document";
-            GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, MainWindow.Instance.GetProgramFolder(), filename);
+            string filename = $"{parsedContent.FileInformation.FileName} - File Description Document.docx";
+            GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, OutputFilePathTextBox.Text, filename);
 
             // Create the preview window
             DocumentWindow docWindow = new();
 
             // Send it the document filepath
-            string filePath = System.IO.Path.Combine(MainWindow.programDataPath, filename);
+            string filePath = System.IO.Path.Combine(OutputFilePathTextBox.Text, filename);
             docWindow.UpdateDocumentContent(filePath);
 
             // Show the preview window
