@@ -34,7 +34,7 @@ namespace StructGen.Objects
         {
             // Save the theme. 
             //MainWindow.settings.theme = theme;
-            //MainWindow.settingsFile.Save();
+            MainWindow.Instance.settingsFile.Save();
 
             string themeName = string.Empty;
             CurrentTheme = theme;

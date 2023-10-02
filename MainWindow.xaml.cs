@@ -1,13 +1,10 @@
 ﻿using StructGen.Objects;
+using StructGen.Pages;
 using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Media;
-using System.Windows.Threading;
-using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.MessageBox;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using SaveFileDialog = System.Windows.Forms.SaveFileDialog;
 using Window = System.Windows.Window;
 
@@ -22,6 +19,13 @@ namespace StructGen
     {
         public static MainWindow Instance = new();
         private string programDataPath;
+        private View previousView;
+        private View currentView;
+        private readonly string companyFolder = "InnovativeConcepts";
+        private readonly string applicationFolder = "StructGen";
+        private readonly string settingsFileName = @"\settings.json";
+        internal static SettingsFile<Objects.Settings> settingsFile = new Settings();
+        private Objects.Settings settings;
 
         /// Views
         static private Pages.Document documentView = new();
@@ -52,7 +56,29 @@ namespace StructGen
         {
             InitializeComponent();
 
-            StartupTasks();
+            programDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), companyFolder, applicationFolder);
+
+            // Ensure the ProgramData folder exists, create it if it doesn't
+            if (!Directory.Exists(programDataPath))
+            {
+                Directory.CreateDirectory(programDataPath);
+            }
+
+            // Handle settings file
+            string settingsFilePath = programDataPath + settingsFileName;
+            settingsFile = new SettingsFile<Objects.Settings>(settingsFilePath);
+
+            // Attempt to load settings
+            if (!settingsFile.Load() || settingsFile.data == null)
+            {
+                settingsFile.data = new();
+            }
+
+            // set theme based on settings
+            settings = settingsFile.data;
+            ThemeController.SetTheme(settings.theme);
+
+            ChangeView(View.Main);
 
             programDataPath = string.Empty;
 
@@ -64,35 +90,22 @@ namespace StructGen
 
             Instance = this;
 
-            ChangeView(View.Main);
+
         }
 
         public void ChangeView(View view)
         {
             switch(view)
             {
-                case View.Document: ContentArea.Content = documentView; break;
-                case View.Main:     ContentArea.Content = mainView;     break;
-                case View.Parse:    ContentArea.Content = parseView;    break;
+                case View.Document: ContentArea.Content = documentView; previousView = view; break;
+                case View.Main:     ContentArea.Content = mainView;     previousView = view; break;
+                case View.Parse:    ContentArea.Content = parseView;    previousView = view; break;
                 case View.Settings: ContentArea.Content = settingsView; break;
                 case View.Startup:  ContentArea.Content = startupView;  break;
                 default:                                                break;
             }
-        }
 
-        /// <summary>A function to handle specific startup tasks.</summary>
-        private void StartupTasks()
-        {
-            string companyFolder = "InnovativeConcepts";
-            string applicationFolder = "StructGen";
-
-            programDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), companyFolder, applicationFolder);
-
-            // Ensure the ProgramData folder exists, create it if it doesn't
-            if (!Directory.Exists(programDataPath))
-            {
-                Directory.CreateDirectory(programDataPath);
-            }
+            currentView = view;
         }
 
         /// <summary>Shows an error message</summary>
@@ -191,7 +204,14 @@ namespace StructGen
 
         private void OpenSettingsView(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ContentArea.Content = settingsView;
+            if (currentView == View.Settings)
+            {
+                ChangeView(previousView);
+            }
+            else
+            {
+                ChangeView(View.Settings);
+            }
         }
     }
 }

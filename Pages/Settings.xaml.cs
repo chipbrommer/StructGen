@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StructGen.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,31 @@ namespace StructGen.Pages
         {
             InitializeComponent();
         }
+
+        public void SetThemeSelection(ThemeController.ThemeTypes value)
+        {
+            switch (value)
+            {
+                case ThemeController.ThemeTypes.Light: LightTheme.IsChecked = true; break;
+                case ThemeController.ThemeTypes.Dark: DarkTheme.IsChecked = true; break;
+                case ThemeController.ThemeTypes.Navy: NavyTheme.IsChecked = true; break;
+            }
+        }
+
+        private void Light_Checked(object sender, RoutedEventArgs e)
+        {
+            ThemeController.SetTheme(ThemeController.ThemeTypes.Light);
+        }
+
+        private void Dark_Checked(object sender, RoutedEventArgs e)
+        {
+            ThemeController.SetTheme(ThemeController.ThemeTypes.Dark);
+        }
+
+        private void Navy_Checked(object sender, RoutedEventArgs e)
+        {
+            ThemeController.SetTheme(ThemeController.ThemeTypes.Navy);
+        }
+
     }
 }

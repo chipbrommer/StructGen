@@ -11,6 +11,46 @@
       Background="{DynamicResource SecondaryBackgroundColor}">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{DynamicResource PrimaryBackgroundColor}" CornerRadius="10" Margin="5">
+            <StackPanel Margin="5">
+                <TextBlock FontSize="16" FontWeight="Medium" Text="Theme" Foreground="{DynamicResource TextPrimaryColor}"/>
+                <RadioButton
+                                x:Name="LightTheme"
+                                Margin="0,8,0,0"
+                                Content="Light"
+                                GroupName="themeSelect"
+                                IsChecked="False" 
+                                Checked="Light_Checked"
+                                FontWeight="Medium"
+                                FontSize="12"
+                                Foreground="{DynamicResource TextPrimaryColor}"/>
+                <RadioButton
+                                x:Name="DarkTheme"
+                                Margin="0,8,0,0"
+                                Content="Dark"
+                                GroupName="themeSelect"
+                                IsChecked="False"
+                                FontWeight="Medium"
+                                FontSize="12"
+                                Checked="Dark_Checked"
+                                Foreground="{DynamicResource TextPrimaryColor}"/>
+                <RadioButton
+                                x:Name="NavyTheme"
+                                Margin="0,8,0,0"
+                                Content="Navy"
+                                GroupName="themeSelect"
+                                IsChecked="False" 
+                                FontWeight="Medium"
+                                FontSize="12"
+                                Checked="Navy_Checked"
+                                Foreground="{DynamicResource TextPrimaryColor}"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>
