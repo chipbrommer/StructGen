@@ -202,7 +202,7 @@ namespace StructGen.Pages
             int status = 0;
 
             // Generate the File Description Document
-            string filename = $"{parsedContent.FileInformation.FileName} - File Description Document";
+            string filename = $"{parsedContent.FileInformation.FileName} - File Description Document.docx";
             status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath, filename);
 
             if (status == 0)

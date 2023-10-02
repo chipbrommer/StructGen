@@ -34,14 +34,17 @@ namespace StructGen
                 // Save the document as XPS
                 doc.Save(xpsFilePath, saveOptions);
 
-                // Load the XPS document
-                XpsDocument xpsDocument = new XpsDocument(xpsFilePath, FileAccess.Read);
+                // Initialize XpsDocument and try to read it back in.
+                XpsDocument xpsDocument = null;
+              
+                using (xpsDocument = new XpsDocument(xpsFilePath, FileAccess.Read))
+                {
+                    // Get the FixedDocumentSequence from the XPS document
+                    FixedDocumentSequence fixedDocumentSequence = xpsDocument.GetFixedDocumentSequence();
 
-                // Get the FixedDocumentSequence from the XPS document
-                FixedDocumentSequence fixedDocumentSequence = xpsDocument.GetFixedDocumentSequence();
-
-                // Set the FixedDocumentSequence as the DocumentViewer's Document
-                documentViewer.Document = fixedDocumentSequence;
+                    // Set the FixedDocumentSequence as the DocumentViewer's Document
+                    documentViewer.Document = fixedDocumentSequence;
+                }
 
                 // Delete the temporary XPS file
                 File.Delete(xpsFilePath);

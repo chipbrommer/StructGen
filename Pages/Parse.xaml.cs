@@ -309,7 +309,7 @@ namespace StructGen.Pages
 
             if (FddButton.IsChecked.HasValue && FddButton.IsChecked.Value)
             {
-                string filename = $"{parsedContent.FileInformation.FileName} - Rev {parsedContent.DescriptionDocument.Revision} - File Description Document";
+                string filename = $"{parsedContent.FileInformation.FileName} - Rev {parsedContent.DescriptionDocument.Revision} - File Description Document.docx";
                 status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath, filename);
             }
 
