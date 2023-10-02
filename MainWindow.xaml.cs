@@ -18,14 +18,14 @@ namespace StructGen
     public partial class MainWindow : Window
     {
         public static MainWindow Instance = new();
-        private string programDataPath;
+        public static string programDataPath = string.Empty;
         private View previousView;
         private View currentView;
         private readonly string companyFolder = "InnovativeConcepts";
         private readonly string applicationFolder = "StructGen";
         private readonly string settingsFileName = @"\settings.json";
-        internal static SettingsFile<Objects.Settings> settingsFile = new Settings();
-        private Objects.Settings settings;
+        internal static SettingsFile<Objects.Settings> settingsFile;
+        internal static Objects.Settings settings;
 
         /// Views
         static private Pages.Document documentView = new();
@@ -89,8 +89,6 @@ namespace StructGen
             startupView = new Pages.Startup();
 
             Instance = this;
-
-
         }
 
         public void ChangeView(View view)
@@ -212,6 +210,11 @@ namespace StructGen
             {
                 ChangeView(View.Settings);
             }
+        }
+
+        public string GetProgramFolder()
+        {
+            return programDataPath;
         }
     }
 }

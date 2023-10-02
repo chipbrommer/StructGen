@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StructGen"
         mc:Ignorable="d"
         Title="StructGen" 
-        Height="390" 
+        Height="420" 
         Width="500"
         ResizeMode="NoResize"
         Background="{DynamicResource SecondaryBackgroundColor}">

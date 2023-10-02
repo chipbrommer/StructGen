@@ -60,7 +60,7 @@ namespace StructGen.Pages
                     {
                         NotificationTextBlock.Visibility = Visibility.Visible;
                         NotificationTextBlock.SetResourceReference(TextBlock.BackgroundProperty, "PrimaryRedColor");
-                        NotificationTextBlock.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryTextColor");
+                        NotificationTextBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextPrimaryColor");
                         NotificationTextBlock.Text = "Failed";
                         break;
                     }
@@ -68,7 +68,7 @@ namespace StructGen.Pages
                     {
                         NotificationTextBlock.Visibility = Visibility.Visible;
                         NotificationTextBlock.SetResourceReference(TextBlock.BackgroundProperty, "PrimaryGreenColor");
-                        NotificationTextBlock.SetResourceReference(TextBlock.ForegroundProperty, "PrimaryTextColor");
+                        NotificationTextBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextPrimaryColor");
                         NotificationTextBlock.Text = "Success";
                         break;
                     }
@@ -107,11 +107,10 @@ namespace StructGen.Pages
                     {
                         ShowErrorMessage("Please select an input file.");
                     }
-                    else if (OutputFilePathTextBox.Text == string.Empty)
-                    {
-                        ShowErrorMessage("Please select an output location.");
+                    else 
+                    { 
+                        ShowErrorMessage("Unsupported input file."); 
                     }
-                    else { ShowErrorMessage("Unsupported input file."); }
                     return -1;
             }
 
@@ -276,6 +275,13 @@ namespace StructGen.Pages
         /// <param name="e"></param>
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
+            // Verify Output location
+            if (OutputFilePathTextBox.Text == string.Empty)
+            {
+                ShowErrorMessage("Please select an output location.");
+                return;
+            }
+
             // Verify content
             if (!contentParsed) { if (ParseFileContent() < 0) { return; } }
 
@@ -303,20 +309,17 @@ namespace StructGen.Pages
 
             if (FddButton.IsChecked.HasValue && FddButton.IsChecked.Value)
             {
-                status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath);
+                string filename = $"{parsedContent.FileInformation.FileName} - Rev {parsedContent.DescriptionDocument.Revision} - File Description Document";
+                status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath, filename);
             }
 
             if (status == 0)
             {
-                NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryGreenColor");
-                NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                NotificationTextBlock.Text = "COMPLETE";
+                SetNotification(Notification.Success);
             }
             else
             {
-                NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryRedColor");
-                NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                NotificationTextBlock.Text = "FAILED";
+                SetNotification(Notification.Failed);
             }
 
             // Create and start the timer

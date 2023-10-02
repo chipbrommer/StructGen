@@ -16,16 +16,16 @@
     <SolidColorBrush x:Key="PrimaryWhiteColor" Color="#FFFFFF"/>
 
     <!-- Text Colors -->
-    <SolidColorBrush x:Key="TextPrimaryColor" Color="#0E1A32"/>
-    <SolidColorBrush x:Key="TextSecondaryColor" Color="#102341"/>
-    <SolidColorBrush x:Key="TextThirdColor" Color="#1C3254"/>
+    <SolidColorBrush x:Key="TextPrimaryColor" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TextSecondaryColor" Color="#B0B7C3"/>
+    <SolidColorBrush x:Key="TextThirdColor" Color="#8A94A6"/>
     <SolidColorBrush x:Key="TextFourthColor" Color="#4B5D78"/>
 
     <!-- Other -->
     <SolidColorBrush x:Key="ButtonDefaultColor" Color="LightGray"/>
-    <SolidColorBrush x:Key="ButtonHoverColor" Color="#4B5D78"/>
+    <SolidColorBrush x:Key="ButtonHoverColor" Color="#87898A"/>
     <SolidColorBrush x:Key="ButtonPressColor" Color="#3751FF"/>
-    <SolidColorBrush x:Key="ButtonTextColor" Color="#E2EDFF"/>
+    <SolidColorBrush x:Key="ButtonTextColor" Color="#0E1A32"/>
     <SolidColorBrush x:Key="PrimaryAccentColor" Color="#3772FF"/>
     <SolidColorBrush x:Key="CheckBoxCheckedColor" Color="#3772FF"/>
 </ResourceDictionary>

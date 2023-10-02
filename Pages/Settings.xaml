@@ -50,6 +50,16 @@
                                 FontSize="12"
                                 Checked="Navy_Checked"
                                 Foreground="{DynamicResource TextPrimaryColor}"/>
+                <RadioButton
+                                x:Name="OldTheme"
+                                Margin="0,8,0,0"
+                                Content="Old"
+                                GroupName="themeSelect"
+                                IsChecked="False" 
+                                FontWeight="Medium"
+                                FontSize="12"
+                                Checked="Old_Checked"
+                                Foreground="{DynamicResource TextPrimaryColor}"/>
             </StackPanel>
         </Border>
     </Grid>

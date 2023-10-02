@@ -293,12 +293,12 @@ namespace StructGen.Objects
         /// <summary>Creates a "File Description Document" based on the HeaderFile.</summary>
         /// <param name="file"> -[in]- HeaderFile structure to create document from.</param>
         /// <param name="outputPath"> -[in]- Path to save the file to.</param>
-        public static int GenerateFileDescriptionDocument(HeaderFile file, string outputPath)
+        public static int GenerateFileDescriptionDocument(HeaderFile content, string outputPath, string filename)
         {
             // Create a new Word document
-            var doc = DocX.Create($"{file.FileInformation.FileName} - File Description Document");
+            var doc = DocX.Create(filename);
 
-            foreach (var structure in file.Structures)
+            foreach (var structure in content.Structures)
             {
                 // Add a heading for the structure
                 doc.InsertParagraph($"Structure: {structure.StructureName}").FontSize(14).Alignment = Alignment.left;
@@ -336,8 +336,7 @@ namespace StructGen.Objects
             }
 
             // Save the document
-            string fileName = $"{file.FileInformation.FileName} - Rev {file.DescriptionDocument.Revision} - File Description Document.docx";
-            string filePath = System.IO.Path.Combine(outputPath, fileName);
+            string filePath = System.IO.Path.Combine(outputPath, filename);
             doc.SaveAs(filePath);
 
             return 0;
@@ -356,13 +355,13 @@ namespace StructGen.Objects
             string[] lines = content.Split('\n');
 
             bool parsingStructure = false;
-            Structure structure = new();
+            Structure structure = new(); // Initialize as null
 
             foreach (string line in lines)
             {
-                if(!parsingStructure)
+                if (!parsingStructure)
                 {
-                    // Process each line and extract relevant information
+                    // Process file information
                     if (line.Contains("@project:"))
                     {
                         headerFile.FileInformation.ProjectName = line.Split(':')[1].Trim();
@@ -377,19 +376,30 @@ namespace StructGen.Objects
                     }
                     else if (line.Contains("struct"))
                     {
-                        structure.StructureName = line.Split(' ')[2];
-                        structure.StructureComment = lines[Array.IndexOf(lines, line) - 1].Trim().Trim('/');
-                        parsingStructure = true;
+                        string[] parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length >= 2)
+                        {
+                            structure.StructureName = parts[1];
+                            structure.StructureComment = lines[Array.IndexOf(lines, line) - 1].Trim().Trim('/');
+                            parsingStructure = true;
+                        }
+                        else
+                        {
+                            // Handle the case where the line doesn't have enough elements
+                            // or is not formatted as expected.
+                            // You can log an error or handle it based on your requirements.
+                        }
                     }
                 }
                 else
                 {
-                    // If end of structure is found, handle clean up
-                    if (line.Trim() == "}")
+                    // Check for the end of the structure
+                    if (line.Trim() == "};")
                     {
+                        // End of the structure, add it to the header file and reset the holder
                         headerFile.Structures.Add(structure);
                         structure = new();
-                        parsingStructure = false; 
+                        parsingStructure = false;
                     }
                     else
                     {
@@ -399,7 +409,7 @@ namespace StructGen.Objects
                         if (parts.Length >= 2)
                         {
                             string type = parts[0];
-                            string name = parts[1].Split(';')[0]; // Remove the semicolon
+                            string name = parts[1].Split(';')[0].Trim(); // Remove the semicolon and trim
                             string comment = line.Split("//")[1].Trim(); // Extract the comment
 
                             // Create a new Variable object and add it to the current structure

@@ -107,11 +107,10 @@ namespace StructGen.Pages
                     {
                         ShowErrorMessage("Please select an input file.");
                     }
-                    else if (OutputFilePathTextBox.Text == string.Empty)
-                    {
-                        ShowErrorMessage("Please select an output location.");
+                    else 
+                    { 
+                        ShowErrorMessage("Unsupported input file."); 
                     }
-                    else { ShowErrorMessage("Unsupported input file."); }
                     return -1;
             }
 
@@ -164,11 +163,16 @@ namespace StructGen.Pages
             // Verify content
             if (!contentParsed) { if (ParseHeaderContent() < 0) { return; } }
 
+            // Create the temporary output file
+            string filename = $"{parsedContent.FileInformation.FileName} - File Description Document";
+            GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, MainWindow.Instance.GetProgramFolder(), filename);
+
             // Create the preview window
             DocumentWindow docWindow = new();
 
             // Send it the document filepath
-            docWindow.UpdateDocumentContent(InputFilePathTextBox.Text);
+            string filePath = System.IO.Path.Combine(MainWindow.programDataPath, filename);
+            docWindow.UpdateDocumentContent(filePath);
 
             // Show the preview window
             docWindow.ShowDialog();
@@ -176,27 +180,31 @@ namespace StructGen.Pages
 
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
+            // Verify Output location
+            if (OutputFilePathTextBox.Text == string.Empty)
+            {
+                ShowErrorMessage("Please select an output location.");
+                return;
+            }
+
             // Verify content
             if (!contentParsed) { if (ParseHeaderContent() < 0) { return; } }
 
-            string outputFolderPath = this.OutputFilePathTextBox.Text;
+            string outputFolderPath = OutputFilePathTextBox.Text;
 
             int status = 0;
 
             // Generate the File Description Document
-            status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath);
+            string filename = $"{parsedContent.FileInformation.FileName} - File Description Document";
+            status += GeneratorInterface.GenerateFileDescriptionDocument(parsedContent, outputFolderPath, filename);
 
             if (status == 0)
             {
-                NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryGreenColor");
-                NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                NotificationTextBlock.Text = "COMPLETE";
+                SetNotification(Notification.Success);
             }
             else
             {
-                NotificationTextBlock.Background = (SolidColorBrush)FindResource("PrimaryRedColor");
-                NotificationTextBlock.Foreground = (SolidColorBrush)FindResource("PrimaryTextColor");
-                NotificationTextBlock.Text = "FAILED";
+                SetNotification(Notification.Failed);
             }
 
             // Create and start the timer

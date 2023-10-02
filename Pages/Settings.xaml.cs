@@ -33,6 +33,7 @@ namespace StructGen.Pages
                 case ThemeController.ThemeTypes.Light: LightTheme.IsChecked = true; break;
                 case ThemeController.ThemeTypes.Dark: DarkTheme.IsChecked = true; break;
                 case ThemeController.ThemeTypes.Navy: NavyTheme.IsChecked = true; break;
+                case ThemeController.ThemeTypes.Old: OldTheme.IsChecked = true; break;
             }
         }
 
@@ -51,5 +52,9 @@ namespace StructGen.Pages
             ThemeController.SetTheme(ThemeController.ThemeTypes.Navy);
         }
 
+        private void Old_Checked(object sender, RoutedEventArgs e)
+        {
+            ThemeController.SetTheme(ThemeController.ThemeTypes.Old);
+        }
     }
 }

@@ -95,7 +95,7 @@
                 <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Preview" Click="PreviewButton_Click"/>
                 <Button Style="{DynamicResource ModernButton}" Grid.Column="1" VerticalAlignment="Center" Width="90" Height="20" Margin="20,0,20,0" Content="Generate" Click="GenerateButton_Click"/>
                 <Border Grid.Column="2" VerticalAlignment="Center" Margin="20,0,20,0" CornerRadius="10">
-                    <TextBlock Name="NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Text="Complete" TextAlignment="Center" Foreground="White"/>
+                    <TextBlock Name="NotificationTextBlock" Width="90" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center"/>
                 </Border>
             </Grid>
         </Border>

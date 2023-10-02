@@ -9,14 +9,12 @@ namespace StructGen.Objects
 {
     public class ThemeController
     {
-        public static ThemeTypes CurrentTheme { get; set; }
-
         public enum ThemeTypes
         {
             Light,
             Dark,
-            Traditional,
             Navy,
+            Old,
         }
 
         public static ResourceDictionary ThemeDictionary
@@ -32,21 +30,14 @@ namespace StructGen.Objects
 
         public static void SetTheme(ThemeTypes theme)
         {
-            // Save the theme. 
-            //MainWindow.settings.theme = theme;
-            MainWindow.Instance.settingsFile.Save();
-
-            string themeName = string.Empty;
-            CurrentTheme = theme;
-
-            switch (theme)
+            string themeName = theme switch
             {
-                case ThemeTypes.Light: themeName = "Light"; break;
-                case ThemeTypes.Navy: themeName = "Navy"; break;
+                ThemeTypes.Dark => "Dark",
+                ThemeTypes.Navy => "Navy",
+                ThemeTypes.Old => "Old",
                 // Intentional fall through 
-                case ThemeTypes.Dark:
-                default: themeName = "Dark"; break;
-            }
+                _ => "Light",
+            };
 
             try
             {
@@ -54,6 +45,9 @@ namespace StructGen.Objects
                     ChangeTheme(new Uri($"Themes/{themeName}.xaml", UriKind.Relative));
             }
             catch { }
+
+            MainWindow.settings.theme = theme;
+            MainWindow.settingsFile.Save();
         }
     }
 }
