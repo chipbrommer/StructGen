@@ -16,12 +16,15 @@ namespace StructGen
         // Holds path for the displayed XPS file. 
         string xpsFilePath = string.Empty;
 
+        /// <summary>Default constructor</summary>
         public DocumentWindow()
         {
             InitializeComponent();
             Closing += DocumentWindow_Closing;
         }
 
+        /// <summary>Handles updating the visible document for the window</summary>
+        /// <param name="filepath"></param>
         public void UpdateDocumentContent(string filepath)
         {
             try
@@ -57,6 +60,9 @@ namespace StructGen
             }
         }
 
+        /// <summary>Additional closing procedures for the window</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DocumentWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // Check if the XPS file exists before attempting to delete it

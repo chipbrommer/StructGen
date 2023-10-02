@@ -64,10 +64,7 @@ namespace StructGen
             {
                 settingsFile.data = new();
             }
-
-            // set theme based on settings
             settings = settingsFile.data;
-            ThemeController.SetTheme(settings.theme);
 
             programDataPath = string.Empty;
 
@@ -79,8 +76,15 @@ namespace StructGen
 
             // Set the starting view.
             ChangeView(View.Main);
+
+            // Update things based on settings.
+            settingsView.SetThemeSelection(settings.theme);
+            ThemeController.SetTheme(settings.theme);
+
         }
 
+        /// <summary>Changes the view content</summary>
+        /// <param name="view"></param>
         public void ChangeView(View view)
         {
             switch(view)
@@ -170,16 +174,9 @@ namespace StructGen
             }
         }
 
-        private void CreateHeaderFile_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeView(View.Parse);
-        }
-
-        private void CreateHeaderDocumentation_Click(object sender, RoutedEventArgs e)
-        {
-            ChangeView(View.Document);
-        }
-
+        /// <summary>Handles request to go back to home view</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HomeView_Click(object sender, RoutedEventArgs e)
         {
             // Clear old data
@@ -191,7 +188,10 @@ namespace StructGen
             ChangeView(View.Main);
         }
 
-        private void OpenSettingsView(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        /// <summary>Handles opening and closing of Settings view</summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SettingsView_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (currentView == View.Settings)
             {

@@ -19,6 +19,7 @@ namespace StructGen
     /// </summary>
     public partial class PreviewWindow : Window
     {
+        /// <summary>Default Constructor</summary>
         public PreviewWindow()
         {
             InitializeComponent();
