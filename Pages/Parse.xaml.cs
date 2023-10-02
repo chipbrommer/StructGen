@@ -121,13 +121,13 @@ namespace StructGen.Pages
         /// <summary>Generates the content based on desired output type</summary>
         /// <param name="outputType"> -[in]- type of the desired output</param>
         /// <returns>String containing the parsed content</returns>
-        private string GetGeneratedContentForType(OutputType outputType)
+        private string GetGeneratedContentForType(GeneratorInterface.OutputType outputType)
         {
             return outputType switch
             {
-                OutputType.C => GeneratorInterface.GenerateHeaderC(parsedContent),
-                OutputType.Cpp => GeneratorInterface.GenerateHeaderCPP(parsedContent),
-                OutputType.CSharp => GeneratorInterface.GenerateHeaderCSHARP(parsedContent),
+                GeneratorInterface.OutputType.C => GeneratorInterface.GenerateHeaderC(parsedContent),
+                GeneratorInterface.OutputType.Cpp => GeneratorInterface.GenerateHeaderCPP(parsedContent),
+                GeneratorInterface.OutputType.CSharp => GeneratorInterface.GenerateHeaderCSHARP(parsedContent),
                 _ => string.Empty,
             };
         }
@@ -137,7 +137,7 @@ namespace StructGen.Pages
         /// <param name="outputType">Type of the file to be created.</param>
         /// <param name="content">Content to be written to file.</param>
         /// <returns>0 if successful, else -1.</returns>
-        private int SaveGeneratedContentToFile(string outputFolderPath, OutputType outputType, string content)
+        private int SaveGeneratedContentToFile(string outputFolderPath, GeneratorInterface.OutputType outputType, string content)
         {
             if (string.IsNullOrEmpty(content))
             {
@@ -149,9 +149,9 @@ namespace StructGen.Pages
 
             switch (outputType)
             {
-                case OutputType.C: outputExtension = "h"; break;
-                case OutputType.Cpp: outputExtension = "h"; break;
-                case OutputType.CSharp: outputExtension = "cs"; break;
+                case GeneratorInterface.OutputType.C: outputExtension = "h"; break;
+                case GeneratorInterface.OutputType.Cpp: outputExtension = "h"; break;
+                case GeneratorInterface.OutputType.CSharp: outputExtension = "cs"; break;
             }
 
             string outputFilename;
@@ -234,19 +234,19 @@ namespace StructGen.Pages
 
             if (CButton.IsChecked.HasValue && CButton.IsChecked.Value)
             {
-                string cContent = GetGeneratedContentForType(OutputType.C);
+                string cContent = GetGeneratedContentForType(GeneratorInterface.OutputType.C);
                 previewWindow.AddPreviewTab("C", cContent);
             }
 
             if (CppButton.IsChecked.HasValue && CppButton.IsChecked.Value)
             {
-                string cppContent = GetGeneratedContentForType(OutputType.Cpp);
+                string cppContent = GetGeneratedContentForType(GeneratorInterface.OutputType.Cpp);
                 previewWindow.AddPreviewTab("C++", cppContent);
             }
 
             if (CSharpButton.IsChecked.HasValue && CSharpButton.IsChecked.Value)
             {
-                string csharpContent = GetGeneratedContentForType(OutputType.CSharp);
+                string csharpContent = GetGeneratedContentForType(GeneratorInterface.OutputType.CSharp);
                 previewWindow.AddPreviewTab("C#", csharpContent);
             }
 
@@ -291,20 +291,20 @@ namespace StructGen.Pages
 
             if (CButton.IsChecked.HasValue && CButton.IsChecked.Value)
             {
-                string cContent = GetGeneratedContentForType(OutputType.C);
-                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.C, cContent);
+                string cContent = GetGeneratedContentForType(GeneratorInterface.OutputType.C);
+                status += SaveGeneratedContentToFile(outputFolderPath, GeneratorInterface.OutputType.C, cContent);
             }
 
             if (CppButton.IsChecked.HasValue && CppButton.IsChecked.Value)
             {
-                string cppContent = GetGeneratedContentForType(OutputType.Cpp);
-                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.Cpp, cppContent);
+                string cppContent = GetGeneratedContentForType(GeneratorInterface.OutputType.Cpp);
+                status += SaveGeneratedContentToFile(outputFolderPath, GeneratorInterface.OutputType.Cpp, cppContent);
             }
 
             if (CSharpButton.IsChecked.HasValue && CSharpButton.IsChecked.Value)
             {
-                string csharpContent = GetGeneratedContentForType(OutputType.CSharp);
-                status += SaveGeneratedContentToFile(outputFolderPath, OutputType.CSharp, csharpContent);
+                string csharpContent = GetGeneratedContentForType(GeneratorInterface.OutputType.CSharp);
+                status += SaveGeneratedContentToFile(outputFolderPath, GeneratorInterface.OutputType.CSharp, csharpContent);
             }
 
             if (FddButton.IsChecked.HasValue && FddButton.IsChecked.Value)

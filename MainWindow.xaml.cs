@@ -43,14 +43,6 @@ namespace StructGen
             Startup
         }
 
-        /// <summary>Enum for available output types</summary>
-        public enum OutputType
-        {
-            C,
-            Cpp,
-            CSharp
-        }
-
         /// <summary>Default constructor</summary>
         public MainWindow()
         {
