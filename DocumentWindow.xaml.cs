@@ -13,9 +13,13 @@ namespace StructGen
     /// </summary>
     public partial class DocumentWindow : Window
     {
+        // Holds path for the displayed XPS file. 
+        string xpsFilePath = string.Empty;
+
         public DocumentWindow()
         {
             InitializeComponent();
+            Closing += DocumentWindow_Closing;
         }
 
         public void UpdateDocumentContent(string filepath)
@@ -29,7 +33,7 @@ namespace StructGen
                 XpsSaveOptions saveOptions = new XpsSaveOptions();
 
                 // Set the output XPS file path
-                string xpsFilePath = filepath + ".xps";
+                xpsFilePath = filepath + ".xps";
 
                 // Save the document as XPS
                 doc.Save(xpsFilePath, saveOptions);
@@ -45,14 +49,27 @@ namespace StructGen
                     // Set the FixedDocumentSequence as the DocumentViewer's Document
                     documentViewer.Document = fixedDocumentSequence;
                 }
-
-                // Delete the temporary XPS file
-                File.Delete(xpsFilePath);
             }
             catch (Exception ex)
             {
                 // Handle any exceptions that may occur during loading
                 MessageBox.Show($"Error loading XPS document: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void DocumentWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Check if the XPS file exists before attempting to delete it
+            if (File.Exists(xpsFilePath))
+            {
+                try
+                {
+                    File.Delete(xpsFilePath); // Delete the temporary XPS file
+                }
+                catch(Exception)
+                {
+                   
+                }
             }
         }
     }
