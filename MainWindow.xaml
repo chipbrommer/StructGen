@@ -30,9 +30,9 @@
                             <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="120" Height="22" Content="Home View" Click="HomeView_Click"/>
+                        <Button x:Name="HomeViewButton" Style="{DynamicResource ModernButton}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="120" Height="22" Content="Home View" Click="HomeView_Click"/>
                         <Image Grid.Column="1" Source="pack://application:,,,/StructGen;component/Resources/StructGen_logo.ico" MouseRightButtonDown="OpenSettingsView"/>
-                        <Button Style="{DynamicResource ModernButton}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="22" Content="Download Layouts" Click="DownloadLayouts_Click"/>
+                        <Button x:Name="DownloadLayoutsButton" Style="{DynamicResource ModernButton}" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="120" Height="22" Content="Download Layouts" Click="DownloadLayouts_Click" Visibility="Hidden"/>
                     </Grid>
 
                     <!-- Row 1 - Main Content View -->

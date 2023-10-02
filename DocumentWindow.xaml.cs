@@ -60,11 +60,11 @@ namespace StructGen
         private void DocumentWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // Check if the XPS file exists before attempting to delete it
-            if (File.Exists(xpsFilePath))
+            if (xpsFilePath != string.Empty && File.Exists(xpsFilePath))
             {
                 try
                 {
-                    File.Delete(xpsFilePath); // Delete the temporary XPS file
+                    File.Delete(xpsFilePath);
                 }
                 catch(Exception)
                 {

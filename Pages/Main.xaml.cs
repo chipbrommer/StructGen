@@ -20,19 +20,23 @@ namespace StructGen.Pages
     /// </summary>
     public partial class Main : Page
     {
-        public Main()
+        MainWindow mainWindow;
+
+        public Main(MainWindow mw)
         {
             InitializeComponent();
+            mainWindow = mw;
         }
 
         private void CreateHeaderFile_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.ChangeView(MainWindow.View.Parse);
+            mainWindow.DownloadLayoutsButton.Visibility = Visibility.Visible;
+            mainWindow.ChangeView(MainWindow.View.Parse);
         }
 
         private void CreateHeaderDocumentation_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.Instance.ChangeView(MainWindow.View.Document);
+            mainWindow.ChangeView(MainWindow.View.Document);
         }
     }
 }

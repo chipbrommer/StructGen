@@ -17,7 +17,6 @@ namespace StructGen
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static MainWindow Instance = new();
         public string programDataPath = string.Empty;
         private View previousView;
         private View currentView;
@@ -28,11 +27,11 @@ namespace StructGen
         internal static Objects.Settings settings;
 
         /// Views
-        static private Pages.Document documentView = new();
-        static private Pages.Main mainView = new();
-        static private Pages.Parse parseView = new();
-        static private Pages.Settings settingsView = new();
-        static private Pages.Startup startupView = new();
+        static private Pages.Document documentView;
+        static private Pages.Main mainView;
+        static private Pages.Parse parseView;
+        static private Pages.Settings settingsView;
+        static private Pages.Startup startupView;
 
         public enum View
         {
@@ -70,17 +69,16 @@ namespace StructGen
             settings = settingsFile.data;
             ThemeController.SetTheme(settings.theme);
 
-            ChangeView(View.Main);
-
             programDataPath = string.Empty;
 
             documentView = new Pages.Document();
-            mainView = new Pages.Main();
+            mainView = new Pages.Main(this);
             parseView = new Pages.Parse();
             settingsView = new Pages.Settings();
             startupView = new Pages.Startup();
 
-            Instance = this;
+            // Set the starting view.
+            ChangeView(View.Main);
         }
 
         public void ChangeView(View view)
@@ -189,6 +187,7 @@ namespace StructGen
             documentView.Reset();
 
             // Toggle Views
+            DownloadLayoutsButton.Visibility = Visibility.Hidden;
             ChangeView(View.Main);
         }
 
