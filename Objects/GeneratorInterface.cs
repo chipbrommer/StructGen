@@ -7,6 +7,7 @@ using Xceed.Document.NET;
 using Xceed.Words.NET;
 using System.Xml.Serialization;
 using System;
+using System.Text.RegularExpressions;
 
 namespace StructGen.Objects
 {
@@ -355,7 +356,7 @@ namespace StructGen.Objects
             string[] lines = content.Split('\n');
 
             bool parsingStructure = false;
-            Structure structure = new(); // Initialize as null
+            Structure structure = new();
 
             foreach (string line in lines)
             {
@@ -432,9 +433,75 @@ namespace StructGen.Objects
         /// <returns>HeaderFile structure containing the parsed contents/returns>
         public static HeaderFile ParseCsharpHeaderFile(string csHeaderContent)
         {
-            HeaderFile headerFile = new();
+            HeaderFile headerFile = new HeaderFile();
 
-            // @todo - handle cs file parsing. 
+            // Split the input content into lines
+            string[] lines = csHeaderContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Regular expressions to identify struct definitions
+            Regex structRegex = new(@"^\s*public\s+struct\s+(\w+)\s*{");
+            Regex commentRegex = new(@"\/\/\s*(.*?)\s*$");
+            Regex variableRegex = new(@"^\s*(public|private|internal|protected|static)?\s+(\w+)\s+(\w+);");
+
+            bool parsingStructure = false;
+            Structure structure = null;
+
+            foreach (string line in lines)
+            {
+                // Check if the line contains a struct definition
+                Match structMatch = structRegex.Match(line);
+
+                if (structMatch.Success)
+                {
+                    if (parsingStructure)
+                    {
+                        // Error - Nested structure ? - logic for these are not yet implemented
+                        continue;
+                    }
+
+                    parsingStructure = true;
+                    structure = new Structure
+                    {
+                        StructureName = structMatch.Groups[1].Value
+                    };
+                }
+                else if (parsingStructure)
+                {
+                    // Check for comments
+                    Match commentMatch = commentRegex.Match(line);
+                    if (commentMatch.Success && structure != null)
+                    {
+                        structure.StructureComment = commentMatch.Groups[1].Value.Trim();
+                    }
+                    else
+                    {
+                        // Check for variable definitions within the struct
+                        Match variableMatch = variableRegex.Match(line);
+                        if (variableMatch.Success)
+                        {
+                            Variable variable = new Variable
+                            {
+                                Type = variableMatch.Groups[2].Value,
+                                Name = variableMatch.Groups[3].Value
+                            };
+
+                            if(structure != null)
+                            {
+                                structure.Variables.Add(variable);
+                            }
+                        }
+                    }
+                }
+                else if (line.Trim() == "}")
+                {
+                    if(structure != null)
+                    {
+                        // End of the structure, add it to the header file
+                        headerFile.Structures.Add(structure);
+                    }
+                    parsingStructure = false;
+                }
+            }
 
             return headerFile;
         }
